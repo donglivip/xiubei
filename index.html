@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<body>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active cell" data-id="sy" id="defaultTab">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item cell" data-id="Order">
+				<span class="mui-icon mui-icon-email"></span>
+				<span class="mui-tab-label">订单</span>
+			</a>
+			<a class="mui-tab-item cell" data-id="My">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<script type="text/javascript" src="js/dui.js"></script>
+		<script>
+			mui.init();
+			function plusReady() {
+				//获取当前的窗口对象
+				var zhuye = plus.webview.currentWebview();
+				var ziyemian = [{
+						url: 'sy.html',
+						id: 'sy'
+					},
+					{
+						url: 'Order.html',
+						id: 'Order'
+					},
+					{
+						url: 'My.html',
+						id: 'My'
+					}
+				];
+				for(var i = 0, l = ziyemian.length; i < l; i++) {
+					var url = ziyemian[i].url;
+					var id = ziyemian[i].id;
+					if(plus.webview.getWebviewById(url, id)) {
+						continue;
+					}
+					var ziye = plus.webview.create(url, id, {
+						bottom: '50px',
+						top: '0px',
+						popGesture: 'none',
+						scrollIndicator: 'none'
+					})
+					//三步表达式
+					i === 0 ? ziye.show() : ziye.hide();
+					zhuye.append(ziye);
+				}
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			//设置默认显示的窗口
+			var ziyeid = "sy";
+			mui('.mui-bar').on("tap", '.mui-tab-item', function(e) {
+				//判断如果当前的页面和即将点击的页面是同一个那么什么也不做
+				if(ziyeid === this.dataset.id) return;
+				//获取标签上的 data-id
+				//重要的一个环节
+				//隐藏当前正在显示的窗口
+				plus.webview.getWebviewById(ziyeid).hide();
+				//显示即将点击的窗口
+				plus.webview.getWebviewById(this.dataset.id).show();
+				//点击之后更新当前正在显示的ID
+				var phone_id = localStorage.getItem('phone');
+				ziyeid = this.dataset.id;
+				if(phone_id == '' || phone_id == 'null' || phone_id == null || phone_id == undefined) {
+					mui.toast("请登录");
+					dui.jump('Sign_in.html', 'Sign_in')
+					return;
+				}
+
+			})
+			document.addEventListener("tuichu", function() {
+				//判断是否在整理状态
+				var phone_id = localStorage.getItem('phone');
+				//判断帐户是否登录
+				if(phone_id == '' || phone_id == 'null' || phone_id == null || phone_id == undefined) {
+					mui.toast("请登录");
+					dui.jump('Sign_in.html', 'Sign_in')
+					return;
+				}
+			})
+			//自定义事件，模拟点击“首页选项卡”  接受通知的意思
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if(defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+		</script>
+	</body>
+
+</html>

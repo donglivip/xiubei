@@ -1,0 +1,415 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">完成订单</h1>
+			<span class="mui-pull-right" onclick="go02()" id="quxiao">取消订单</span>
+			<!--<span class="mui-pull-right" id="xiugai" onclick="xiugai()">修改价格</span>-->
+		</header>
+
+		<div class="mui-content">
+
+			<div class="Order_ca">
+
+			</div>
+			<div class="fulfi">
+
+			</div>
+		</div>
+
+		<div class="but">
+
+		</div>
+		<script type="text/javascript" src="js/dui.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script>
+			mui.init();
+			var Orderbada = document.getElementsByClassName("Orderbada"),
+				url_url = localStorage.getItem("register_url"),
+				imgid = null,
+				imglist = []
+
+			function go() {
+				dui.jump("Order_details02.html", "Order_details02");
+			}
+
+			function go02() {
+				dui.jump("cancel.html", "cancel");
+			}
+
+			function xiugai() {
+				var price = prompt('请输入价格！')
+				if(price == '' || price == 0) {
+					alert('请输入正确的价格')
+					return
+				}
+				$.ajax({
+					type: "post",
+					url: url_url + "/order/OrderPrice",
+					async: true,
+					dataType: 'json',
+					data: {
+						orderId: localStorage.getItem('orderid'),
+						prices: price
+					},
+					success: function(res) {
+						console.log(JSON.stringify(res))
+						if(res.code == 200) {
+							plus.nativeUI.toast('修改成功!')
+						} else {
+							plus.nativeUI.toast('修改失败!')
+						}
+					}
+				});
+			}
+
+			function myajax() {
+				$('.Order_ca').html('')
+				$('.fulfi').html('')
+				$.ajax({
+					type: "GET",
+					url: url_url + "/order/Infor",
+					dataType: 'json',
+					async: true,
+					data: {
+						order_id: localStorage.getItem('orderid')
+					},
+					success: function(data) {
+						$('.Order_ca').append(`	
+							<div class="Ord myorder" onclick='go()'>
+								<span style='margin-left:.1rem'>查看详情</span>
+								<span class='mui-icon mui-icon-forward'></span>
+							</div>	
+							<div class="Order_span">
+								<span>订单类型</span>
+								<span style="float: right;">${data.data.pb_skill_type_one_title} - ${data.data.pb_skill_type_title}</span>
+							</div>
+							<div class="Order_span">
+								<span>上门时间:</span>
+								<span style="float: right;">${data.data.sm_time}</span>
+							</div>
+							<div class="Order_span">
+								<span>订单地址:</span>
+								<span style="float: right;">${data.data.pb_region_text}${data.data.pb_order_detailed}</span>
+							</div>
+			
+							<div class="Order_span">
+								<span>订单押金:</span>
+								<span style="float: right;">${data.data.pb_order_deposit}元</span>
+							</div>
+
+						`)
+						$('.fulfi').append(`
+								<block style="display:${data.data.pb_order_details_state==0?'block':'none'}">
+									<a>1</a>
+									<h1>请进行签到：</h1>
+									<button onclick="change('SignIn')">未签到</button>
+								</block>
+								<block style="display:${data.data.pb_order_details_state==1?'block':'none'}">
+									<a>2</a>
+									<h1 style="width: 80%;">工作内容详情：</h1>
+									<div class="img-da">
+										<img src="img/da.png" />
+										<textarea id='mytext'></textarea>
+									</div>
+								</block>
+								<block style="display:${data.data.pb_order_details_state==2?'block':'none'}">
+									<a>3</a>
+									<h1 style="width: 80%;">上传工作照：</h1>
+									<div class="ful_img">
+										<img style="width:10px;height: 1.3rem;;margin-left: 3.5%;" src="img/da.png" />
+										<img class="img_a" id='img01' src="img/44.png" onclick="imgclick('img01')"/>
+										<img class="img_a" id='img02' src="img/44.png" onclick="imgclick('img02')"/>
+										<img class="img_a" id='img03' src="img/44.png" onclick="imgclick('img03')"/>
+										<img class="img_a" id='img04' src="img/44.png" onclick="imgclick('img04')"/>
+									</div>
+								</block>
+								<block style="display:${data.data.pb_order_details_state==3?'block':'none'}">
+									<a>4</a>
+									<h1 style="width: 80%;">订单费用：</h1>
+									<div class="ful_img">
+										<img style="width:10px; height: 1.3rem;margin-left: 3.5%;" src="img/da.png" />
+										<input type="number" class="class_input" placeholder="请师傅输入订单价格(元)" id='FillInCost'/>
+									</div>
+								</block>
+								<block style="display:${data.data.pb_order_details_state==4?'block':'none'}">
+									<a style="background: #FFFFFF;border: 1px solid #DDD;color: #000000;">5</a>
+									<h1 style="width: 80%;">备注信息：</h1>
+									<div class="ful_img">
+										<img style="width:10px; height:65px;margin-left: 3.5%;" src="img/da.png" />
+										<textarea id='Remark'></textarea>
+									</div>
+								</block>
+								<button onclick="change02(${data.data.pb_order_details_state})" style="display:${data.data.pb_order_details_state==6?'none':'block'}">
+								${data.data.pb_order_details_state!=5?'下一步':'支付订单'}
+								</button>
+	
+						`)
+						if(data.data.pb_order_details_state != 0) {
+							$('#quxiao').hide()
+						}
+						if(data.data.pb_order_details_state == 5) {
+							$('#xiugai').show()
+						} else {
+							$('#xiugai').hide()
+						}
+
+						function plusReady() {
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+					},
+					error: function(data) {
+						function plusReady() {
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						console.log(JSON.stringify(data));
+					}
+				});
+
+			}
+
+			function change(type) {
+				var datajson = {
+					order_id: localStorage.getItem('orderid'),
+					order_state: type
+				}
+				$.ajax({
+					type: "post",
+					url: url_url + "/order/SetOrderDetailsState",
+					async: true,
+					dataType: 'json',
+					data: datajson,
+					success: function(res) {
+						if(res.status == 'ok') {
+							myajax()
+						}
+					},
+					error: function(err) {
+						alert(JSON.stringify(datajson))
+					}
+				});
+			}
+
+			function change02(type) {
+				var datajson;
+				if(type == 5) {
+					$.ajax({
+						type: "post",
+						url: url_url + "/order/PayOrder",
+						async: true,
+						data: {
+							order_id: localStorage.getItem('orderid'),
+							user_id: localStorage.getItem('data_id')
+						},
+						dataType: 'json',
+						success: function(res) {
+							if(res.status == 'ok') {
+								plus.webview.getWebviewById('Order').reload()
+								plus.nativeUI.toast('支付成功 ')
+								$('button').hide()
+							} else if(res.status == 'lowMoney') {
+								plus.nativeUI.toast('资金不足 ')
+								mui.openWindow({
+									url: './Recharge.html',
+									id: 'Recharge'
+								})
+								plus.nativeUI.closeWaiting()
+							} else {
+								plus.nativeUI.toast('其他错误 ')
+							}
+						},
+						error: function(err) {
+							alert(JSON.stringify(err))
+						}
+					});
+				} else {
+					if(type == 0) {
+						datajson = {
+							order_id: localStorage.getItem('orderid'),
+							order_state: 'SignIn'
+						}
+					} else if(type == 1) {
+						datajson = {
+							order_id: localStorage.getItem('orderid'),
+							order_state: 'FillInBody',
+							infor: $('#mytext').val()
+						}
+					} else if(type == 2) {
+						datajson = {
+							order_id: localStorage.getItem('orderid'),
+							order_state: 'UploadPhoto',
+							infor: JSON.stringify(imglist)
+						}
+					} else if(type == 3) {
+						datajson = {
+							order_id: localStorage.getItem('orderid'),
+							order_state: 'FillInCost',
+							infor: $('#FillInCost').val()
+						}
+					} else if(type == 4) {
+						datajson = {
+							order_id: localStorage.getItem('orderid'),
+							order_state: 'Remark',
+							infor: $('#Remark').val()
+						}
+					}
+
+					if(($('#FillInCost').val() == '' || $('#FillInCost').val() <= 0) && type == 3) {
+						return false;
+						return
+					}
+					$.ajax({
+						type: "post",
+						url: url_url + "/order/SetOrderDetailsState",
+						async: true,
+						data: datajson,
+						dataType: 'json',
+						success: function(res) {
+							if(res.status == 'ok') {
+								myajax()
+							}
+						},
+						error: function(err) {
+							alert(JSON.stringify(datajson))
+						}
+					});
+				}
+
+			}
+			myajax()
+
+			function imgclick(id) {
+				imgid = id
+				var btnArray = [{
+					title: "照相机"
+				}, {
+					title: "相册"
+				}]; //选择按钮  1 2 3
+				plus.nativeUI.actionSheet({
+						title: "请选择",
+						cancel: "取消", // 0
+						buttons: btnArray
+					},
+					function(e) {
+						var index = e.index; // 
+						switch(index) {
+							case 1:
+								//写自己的逻辑
+								camera();
+								break;
+							case 2:
+								album();
+								break;
+						}
+					});
+			}
+			//	相机上传
+			function camera() {
+				var cmr = plus.camera.getCamera();
+				cmr.captureImage(function(p) {
+					//成功
+					plus.io.resolveLocalFileSystemURL(p, function(entry) {
+						var img_name = entry.name; //获得图片名称
+						var img_path = entry.toLocalURL(); //获得图片路径
+						$("#" + imgid + "").attr('src', img_path);
+						upload_img(img_path);
+					}, function(e) {
+						alert("读取拍照文件错误：" + e.message);
+					});
+
+				}, function(e) {
+					alert("失败：" + e.message);
+				}, {
+					filename: '_doc/camera/',
+					index: 1
+				}); //  “_doc/camera/“  为保存文件名
+			}
+			//	相册上传
+			function album() {
+				plus.gallery.pick(function(path) {
+					upload_img(path);
+					$("#" + imgid + "").attr('src', path);
+				}, function(e) {
+					alert("取消选择图片");
+				}, {
+					filter: "image"
+				});
+			}
+
+			//初始上传地址  
+			var server = url_url + "/public_upload/Upload";
+			var files = []; //图片存放的数组 可以上传一个，或者多个图片 
+			//上传图片
+			function upload_img(p) {
+				var n = p.substr(p.lastIndexOf('/') + 1);
+				files.push({
+					name: "file",
+					path: p
+				});
+				//开始上传
+				start_upload();
+			}
+
+			//开始上传
+			function start_upload() {
+				if(files.length <= 0) {
+					plus.nativeUI.alert("没有添加上传文件！");
+					return;
+				}
+				//原生的转圈等待框
+				var wt = plus.nativeUI.showWaiting();
+				var task = plus.uploader.createUpload(server, {
+						method: "POST"
+					},
+					function(t, status) { //上传完成
+						if(status == 200) {
+							//							//资源
+							var responseText = t.responseText;
+							imglist.push(responseText)
+							wt.close();
+						} else {
+							alert("上传失败：" + status);
+							//关闭原生的转圈等待框
+							wt.close();
+						}
+					});
+				task.addData("uid", getUid());
+				for(var i = 0; i < files.length; i++) {
+					var f = files[i];
+					task.addFile(f.path, {
+						key: f.name
+					});
+				}
+				task.start();
+			}
+			// 产生一个随机数
+			function getUid() {
+				return Math.floor(Math.random() * 100000000 + 10000000).toString();
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<style type="text/css">
+		/*分享*/
+		.share{background: #F4F4F4;}
+		.share .help-item{justify-content: flex-start;background: #FFFFFF;}
+		.share .help-item img{width: .4rem;margin-left: .2rem;margin-right: .1rem;}
+		.share .share-top{height: 4rem;width: 100%;background: #FFFFFF;display: flex;align-items: center;justify-content: center;flex-direction: column;margin-bottom: .2rem;}
+		.share .share-top img,canvas{height: 2.5rem;margin: .2rem 0;}
+		.share .share-top p{font-size: .2rem;}
+		.help-item{display: flex;align-items: center;height: .8rem;border-bottom: 1px solid #F4F4F4;}
+	</style>
+	<body>
+		<div class="wrapper help share">
+			<!--头部-->
+			<div class="header">
+				<div class="head-tab mui-action-back">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
+				</div>
+				<div class="head-main">
+					分享赚钱
+				</div>
+				<div class="head-tab">
+					<!--明细 onclick="opennew('sharedetail')"-->
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="share-top">
+					<p>分享二维码立刻开始赚钱</p>
+					<div id="output"></div>
+				</div>
+				<div class="help-item" onclick="sharew()">
+					<img src="img/wpay.png" />
+					<div>微信分享</div>
+				</div>
+				<div class="help-item" onclick="shareWeixinMessage()">
+					<img src="img/wquan.png" />
+					<div>朋友圈分享</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			jQuery(function() {
+				jQuery('#output').qrcode(localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'));
+				console.log(localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'))
+			})
+			var shares = null,
+				sharewx = null,
+				shareqq=null
+			// 监听plusready事件  
+			document.addEventListener("plusready", function() {
+				// 扩展API加载完毕，现在可以正常调用扩展API
+				plus.share.getServices(function(s) {
+					shares = s;
+					console.log(JSON.stringify(s))
+					for(var i in s) {
+						if('weixin' == s[i].id) {
+							sharewx = s[i];
+						}
+						if('qq' == s[i].id) {
+							shareqq = s[i];
+						}
+					}
+				}, function(e) {
+					alert("获取分享服务列表失败：" + e.message);
+				});
+			}, false);
+			function opennew(target){
+				mui.openWindow({
+							url: './' + target + '.html',
+							id: target
+						})
+			}
+			function sharew() {
+				console.log(localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'))
+				sharewx.send({
+					title:'最好用的维修软件 涛哥快修！',
+					content: "懒得修 就用涛哥快修！",
+					href: localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'),
+					extra: {
+						scene: "WXSceneSession"
+					}
+				}, function() {
+					alert("分享成功！");
+				}, function(e) {
+					alert("分享失败,请检查网络或者是否安装微信!");
+				});
+			}
+			function shareq() {
+				plus.nativeUI.toast('暂不支持qq分享呢')
+				shareqq.send({
+					title:'最好用的维修软件 涛哥快修！',
+					content: "懒得修 就用涛哥快修！",
+					href: localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'),
+					extra: {
+						scene: "涛哥快修"
+					}
+				}, function() {
+					alert("分享成功！");
+				}, function(e) {
+					alert("分享失败请检查网络或者是否安装微信!");
+				});
+			}
+			function shareWeixinMessage() {
+				console.log(localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'))
+				sharewx.send({
+					title:'最好用的维修软件 涛哥快修！',
+					content: "懒得修 就用涛哥快修！",
+					href: localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'),
+					extra: {
+						scene: "WXSceneTimeline"
+					}
+				}, function() {
+					alert("分享成功！");
+				}, function(e) {
+					alert("分享失败请检查网络或者是否安装微信!");
+				});
+			}
+		</script>
+	</body>
+
+</html>

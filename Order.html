@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/base.css" />
+		<link rel="stylesheet" href="css/Order.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<style type="text/css">
+		html,
+		body,
+		.mui-content {
+			height: 100%;
+		}
+		
+		.mui-table-view {
+			height: calc(100% - 1.25rem);
+			overflow-y: scroll;
+		}
+		
+		#mya {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			font-size: .2rem;
+		}
+		
+		.Order_span {
+			display: flex;
+			justify-content: space-between;
+		}
+		
+		.Order_span span:first-of-type {
+			width: 2rem;
+		}
+		
+		.Order_span span:last-of-type {
+			text-align: right;
+		}
+	</style>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-pull-right" onclick='ihide()' id="mya">关闭地图</a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<iframe src="" width="100%" height="100%" frameborder="0"></iframe>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="ri_come" style="display: flex;">
+				<a onclick="myajax('unfinished',0)">未完成</a>
+				<a onclick="myajax('over',1)">已完成</a>
+				<a onclick="myajax('canceled',2)">已取消</a>
+			</div>
+			<!--数据列表-->
+			<ul class="mui-table-view mui-table-view-chevron" id="list">
+
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/mui.js"></script>
+	<script type="text/javascript" src="js/dui.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<script>
+		mui.init();
+		var cell = document.getElementsByClassName("cell");
+		var btn = document.getElementsByTagName("button");
+		var ri_come = document.getElementsByClassName("me-active-a");
+		var me = document.getElementsByClassName("me-active-a");
+		$('iframe').hide()
+		$('#mya').hide()
+
+		function myajax(type, index) {
+			$('.ri_come a').removeClass('me-active-a')
+			$('.ri_come a').eq(index).addClass('me-active-a')
+			$.ajax({
+				type: "get",
+				url: localStorage.getItem('register_url') + "/order/OrderList",
+				async: true,
+				dataType: 'json',
+				data: {
+					userId: localStorage.getItem("data_id"),
+					page: 1,
+					getType: type
+				},
+				success: function(data) {
+					$('#list').html('')
+					for(var i = 0; i < data.data.length; i++) {
+						$('#list').append(`
+							<div class="Order_ca">
+								<div class="Order_span">
+									<span>订单类型</span>
+									<span>${data.data[i].pb_skill_type_one_title} - ${data.data[i].pb_skill_type_title}</span>
+								</div>
+								<div class="Order_span">
+									<span>上门时间:</span>
+									<span>${data.data[i].sm_time}</span>
+								</div>
+								<div class="Order_span">
+									<span>订单地址:</span>
+									<span>${data.data[i].pb_region_text}${data.data[i].pb_order_detailed}</span>
+								</div>
+								<div class="Order_span">
+									<span>订单押金:</span>
+									<span>${data.data[i].pb_order_deposit}元</span>
+								</div>
+							</div>
+		
+							<div class="Ord" style='display:flex;margin-bottom:.2rem;'>
+								<a href="javascript:void(0)" onclick="gomap('${data.data[i].pb_order_details_x}','${data.data[i].pb_order_details_y}','${data.data[i].pb_order_detailed}')">导航过去</a>
+								<span style='flex:1'></span>
+								<a class="Orderbada" style="margin-left: 0.1rem;background: #0062CC;color: #FFFFFF;" onclick='opennew(${data.data[i].pb_order_id})'>工作流程</a>
+								<a class="Orderbada" href='tel:${data.data[i].pb_order_phone}'>拨打电话</a>
+							</div>	
+						`)
+						if(index == 2 || index == 1) {
+							$('.Ord').hide()
+						}
+					}
+				}
+			});
+		}
+		myajax('unfinished', 0)
+		document.addEventListener("haveOrder", function() {
+			myajax('unfinished', 0)
+		})
+
+		function opennew(id) {
+			localStorage.setItem('orderid', id)
+			mui.openWindow({
+				url: './fulfillment_Order.html',
+				id: 'fulfillment_Order'
+			})
+		}
+
+		function gomap(lat, lng, name) {
+			$('iframe').attr('src', 'https://uri.amap.com/marker?position=' + lat + ',' + lng + '&name=' + name + '')
+			$('iframe').show()
+			$('#mya').show()
+			$('.mui-content').hide()
+		}
+
+		function ihide() {
+			$('iframe').hide()
+			$('#mya').hide()
+			$('.mui-content').show()
+		}
+	</script>
+
+</html>

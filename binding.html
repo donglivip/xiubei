@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<style type="text/css">
+		.buoo {
+			color: #FFFFFF;
+			justify-content: center;
+		}
+	</style>
+	<body>
+		<div class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-back "></a>
+			<h1 class="mui-title ">绑定支付宝</h1>
+		</div>
+		<div class="mui-content ">
+			<div class="mui-input-group bangding-div" id="bangding" style="display: block;">
+				<div class="mui-input-row">
+					<label>支付宝账户</label>
+					<input id="zhanghu" type="number" class="mui-input-clear" placeholder="请输入支付宝账户 ">
+				</div>
+			</div>
+
+			<div class="a" style="height: 0.3rem; line-height: 0.3rem;">
+				<div style="font-size: 0.22rem;color: #000000;margin: 0.2rem;">请慎重绑定自己的支付宝账户！如果绑定错误。有可能收不到钱！</div>
+			</div>
+
+			<div class="img_classs" id="img_min" style="display: none;">
+				<img src="img/789.jpg " />
+			</div>
+		</div>
+		<div class="buoo" id="Unbound02">
+			确定绑定
+		</div>
+	</body>
+	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="js/dui.js "></script>
+	<script>
+		//确定绑定账户
+		$('#Unbound02').click(function() {
+			var tel = $('#zhanghu').val()
+			if(tel == "") {
+				alert("账户不能为空~！请重新填写!");
+				return;
+			}
+			$.ajax({
+				type: "post",
+				url: localStorage.getItem('register_url') + "/recharge/Bind",
+				dataType: 'json',
+				data: {
+					'id': localStorage.getItem('data_id'),
+					'alipay': $('#zhanghu').val()
+				},
+				async: true,
+				success: function(data) {
+					if(data = 0) {
+						alert("绑定失败!")
+						return;
+					} else if(data = 1) {
+						alert("绑定成功!")
+
+						localStorage.setItem("alipay", zhanghu.value);
+
+						alip();
+
+					}
+				},
+				error: function(data) {
+					console.log(JSON.stringify(data));
+				}
+			});
+		})
+	</script>
+
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<style type="text/css">
+		.active{border-bottom: 2px solid #2484E8;}
+		.Detai_one{border-radius: 0;}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收益明细</h1>
+		</header>
+		<div class="mui-content">
+			<div class="Profit" id="list">
+				<div class="ProProfit-One">
+					<a>今日收入</a>
+					<p class="class_p">￥1</p>
+				</div>
+				<div class="ProProfit-One">
+					<a>当月收入</a>
+					<p class="class_p">￥0</p>
+				</div>
+				<div class="ProProfit-One">
+					<a>当季收入</a>
+					<p class="class_p">￥0</p>
+				</div>
+			</div>
+			<div class="Profit_one">
+				<div class="Detai_one" onclick="havepro('NowDay',0)">
+					今日
+				</div>
+				<div class="Detai_one" onclick="havepro('SameMonth',1)">
+					当月
+				</div>
+				<div class="Detai_one" onclick="havepro('Quarter',2)">
+					当季
+				</div>
+			</div>
+			<div class="Order_ca">
+				
+			</div>
+		</div>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script>
+			var url_url = localStorage.getItem("register_url");
+			var data_id = localStorage.getItem("data_id");
+			function havepro(type,index){
+				$('.Detai_one').removeClass('active')
+				$('.Detai_one').eq(index).addClass('active')
+				$.ajax({
+					type: "get",
+					url: url_url + "/bookkeeping/List",
+					dataType: 'json',
+					data: {
+						userId: data_id,
+						type:type,
+						page:1
+					},
+					async: true,
+					success: function(data) {
+						$('.Order_ca').html('')
+						for (var i = 0; i < data.data.length; i++) {
+							$('.Order_ca').append(`
+								<div class="Order_span" style='border-top:1px solid #f4f4f4'>
+									<span>${data.data[i].us_bookkeeping_title}</span>
+									<span style="float: right;">￥${data.data[i].us_bookkeeping_money}</span>
+								</div>
+								<div class="Order_span">
+									<span>余额</span>
+									<span style="float: right;">￥${data.data[i].us_balance}</span>
+								</div>
+								
+							`)
+						}
+					},
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+			}
+			
+			
+			havepro('NowDay',0)
+			
+			
+			
+			mui.init();
+			var list = document.getElementById("list");
+			var class_p = document.getElementsByTagName("p");
+			var Detai = document.getElementsByClassName("Detai_one");
+			for(var i = 0; i < Detai.length; i++) {
+				Detaittp(Detai[i])
+			}
+			function Detaittp(i) {
+				i.addEventListener("tap", function() {
+
+				})
+			}
+			//获取今日收入
+			Get_today();
+			function Get_today() {
+				$.ajax({
+					type: "get",
+					url: url_url + "/bookkeeping/Count",
+					dataType: 'json',
+					data: {
+						userId: data_id
+					},
+					async: true,
+					success: function(data) {
+						//今日收入
+						if(data.data.NowDay == 'null' || data.data.NowDay == null) {
+							class_p[0].innerHTML = '￥' + 0;
+							return;
+						} else {
+							class_p[0].innerHTML = data.data.NowDay;
+						}
+						//当月收入
+						if(data.data.SameMonth == 'null' || data.data.SameMonth == null) {
+							class_p[1].innerHTML = '￥' + 0;
+							return;
+						} else {
+							class_p[1].innerHTML = data.data.SameMonth;
+						}
+						//当季收入
+						if(data.data.Quarter == 'null' || data.data.Quarter == null) {
+							class_p[2].innerHTML = '￥' + 0;
+							return;
+						} else {
+							class_p[2].innerHTML = data.data.Quarter;
+						}
+					},
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+			};
+		</script>
+	</body>
+
+</html>

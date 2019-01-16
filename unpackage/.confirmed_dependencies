@@ -1,0 +1,51 @@
+{
+  "index.html": {
+    "resources": [
+      "sy.html",
+      "share.html"
+    ],
+    "refer": [
+      "Order.html",
+      "My.html",
+      "sy.html",
+      "Sign_in.html",
+      "share.html"
+    ]
+  },
+  "Sign_in.html": {
+    "refer": [
+      "register.html",
+      "poss_word.html"
+    ]
+  },
+  "My.html": {
+    "refer": [
+      "tication.html",
+      "Set_up.html",
+      "about.html",
+      "wallet.html"
+    ]
+  },
+  "sy.html": {
+    "refer": [
+      "membership.html",
+      "Order_details.html",
+      "Sign_in.html"
+    ]
+  },
+  "Order.html": {
+    "refer": [
+      "fulfillment_Order.html"
+    ]
+  },
+  "wallet.html": {
+    "refer": [
+      "Profit.html"
+    ]
+  },
+  "fulfillment_Order.html": {
+    "refer": [
+      "Order_details02.html"
+    ]
+  }
+}

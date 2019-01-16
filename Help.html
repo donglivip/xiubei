@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">帮助</h1>
+		</header <div class="mui-content top">
+		<ul class="mui-table-view" id="list" style="margin-top: 44px;">
+		</ul>
+		</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="js/dui.js"></script>
+		<script>
+			mui.init();
+			var cell = document.getElementsByClassName("mui-table-view-cell")
+			var top_li = document.getElementsByClassName("top_li");
+			var url_url = localStorage.getItem("register_url");
+			var list = document.getElementById('list');
+			top_lil();
+			function top_lil() {
+				$.ajax({
+					type: "get",
+					url: url_url + "/help",
+					dataType: 'json',
+					async: true,
+					success: function(data) {
+						console.log(data)
+						for(var a in data) {
+							var tpml = '<li class="mui-table-view-cell top_li" cid="' + data[a].pb_common_problems_id + '" title="' + data[a].pb_common_problems_title + '" body="' + data[a].pb_common_problems_body + '">' +
+								'<span class="mui-navigate-right" >' +
+								data[a].pb_common_problems_title +
+								'</span>' +
+								'</li>';
+
+							list.innerHTML += tpml;
+						}
+						clee();
+					},
+					error: function(data) {
+						console.log(JSON.stringify(data));
+
+					}
+				});
+			}
+
+			function clee() {
+				var cell = document.getElementsByClassName("mui-table-view-cell");
+				for(var a = 0; a < cell.length; a++) {
+					cell[a].addEventListener("tap", function() {
+						var oid_id = this.getAttribute('cid');
+						var title = this.getAttribute('title');
+						var body = this.getAttribute('body');
+						localStorage.setItem("pb_issue_id", oid_id);
+						localStorage.setItem("title_ti", title);
+						localStorage.setItem("body_bo", body);
+						dui.jump("Help_san.html", "Help_san");
+
+					})
+				}
+			}
+		</script>
+	</body>
+
+</html>

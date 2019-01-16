@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<span class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></span>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-input-group tica">
+				<div class="mui-input-row">
+					<label>姓名</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入姓名">
+				</div>
+			</div>
+			<div class="mui-input-group tica">
+				<div class="mui-input-row">
+					<label>身份证</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入身份证号码">
+				</div>
+			</div>
+			<div class="tion">
+				<a>拍摄并上传您的身份证</a>
+				<div class="div-div">
+					<div class="tion-div">
+						<div class="tion-img">
+							<div class="img_ti">
+								<img src="img/44.png" />
+								<h1>拍摄身份证人脸面</h1>
+							</div>
+						</div>
+					</div>
+
+					<div class="tion-div">
+						<div class="tion-img">
+							<div class="img_ti">
+								<img src="img/44.png" />
+								<h1>拍摄身份证国徽面</h1>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="btn" id="btnn">
+				<button>提交认证</button>
+			</div>
+
+		</div>
+
+	</body>
+	<script type="text/javascript" src="js/mui.js"></script>
+	<script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+	<script type="text/javascript" src="js/dui.js"></script>
+	<script>
+		mui.init();
+
+		//获取正面身份证
+
+		var img = document.getElementsByTagName("img");
+
+		var url_url = localStorage.getItem("register_url");
+
+		var inpu = document.getElementsByClassName("mui-input-clear");
+
+		var btn = document.getElementById("btn");
+
+		var data_id = localStorage.getItem("data_id");
+
+		var state = localStorage.getItem("state");
+
+		var tion = document.getElementsByClassName("tion");
+
+		//认证判断
+
+		//上传图片上传身份证人脸面
+
+		img['0'].addEventListener("tap", function() {
+			zhaoxiangji('0')
+		});
+		//上传身份证国徽面
+		img['1'].addEventListener("tap", function() {
+			zhaoxiangji('1')
+		});
+
+		function zhaoxiangji(num) {
+			var btnArray = [{
+				title: "照相机"
+			}, {
+				title: "相册"
+			}]; //选择按钮  1 2 3
+			plus.nativeUI.actionSheet({
+					title: "请选择",
+					cancel: "取消", // 0
+					buttons: btnArray
+				},
+				function(e) {
+					var index = e.index; // 
+					//alert(index);
+					switch(index) {
+						case 1:
+							//打开照相机
+							camera(num);
+							break;
+						case 2:
+							//打开相册
+							album(num);
+							break;
+					}
+				});
+		}
+		//打开照相机
+		function camera(num) {
+			//alert(num);
+			var cmr = plus.camera.getCamera();
+			cmr.captureImage(function(p) {
+				//成功
+				plus.io.resolveLocalFileSystemURL(p, function(entry) {
+					var img_name = entry.name; //获得图片名称
+					var img_path = entry.toLocalURL(); //获得图片路径
+					//调用上传图片函数
+					img[num].src = img_path
+					upload_img(img_path, num);
+
+				}, function(e) {
+					console.log("读取拍照文件错误：" + e.message);
+				});
+
+			}, function(e) {
+				console.log("失败：" + e.message);
+			}, {
+				filename: '_doc/camera/',
+				index: 1
+			}); //  “_doc/camera/“  为保存文件名
+		}
+		//打开相册
+		function album(num) {
+			//alert(num);
+			plus.gallery.pick(function(path) {
+				//调用上传图片函数
+				img[num].src = path
+				upload_img(path, num);
+			}, function(e) {
+				console.log("取消选择图片");
+			}, {
+				filter: "image"
+			});
+		}
+		//初始上传地址  
+		var server = url_url + '/public_upload/Upload';
+		var files = [];
+		//上传图片
+		function upload_img(p, num) {
+			//注意 
+			files = [];
+			var n = p.substr(p.lastIndexOf('/') + 1);
+			files.push({
+				name: "file",
+				path: p
+			});
+			start_upload(p, num);
+		}
+		//开始上传
+		function start_upload(p, num) {
+			if(files.length <= 0) {
+				plus.nativeUI.alert("没有添加上传文件！");
+				return;
+			}
+			//原生的转圈等待框
+			var wt = plus.nativeUI.showWaiting();
+			var task = plus.uploader.createUpload(server, {
+					method: "POST"
+				},
+				function(t, status) {
+					if(status == 200) {
+						//资源
+						var responseText = t.responseText;
+
+						switch(num) {
+							case '0':
+								img['0'].setAttribute('img_img_img', responseText);
+								break;
+							case '1':
+								img['1'].setAttribute('img_img_img', responseText);
+								break;
+						}
+						//关闭转圈等待框
+						wt.close();
+						//ajax 写入数据库
+					} else {
+						console.log("上传失败：" + status);
+						//关闭原生的转圈等待框
+						wt.close();
+					}
+				});
+
+			task.addData("client", "");
+			task.addData("uid", getUid());
+			for(var i = 0; i < files.length; i++) {
+				var f = files[i];
+				task.addFile(f.path, {
+					key: f.name
+				});
+			}
+			task.start();
+		}
+		// 产生一个随机数
+		function getUid() {
+			return Math.floor(Math.random() * 100000000 + 10000000).toString();
+		}
+		//存取本地保存的图片
+		//				提交按钮
+		btnn.addEventListener("tap", function() {
+			var name = inpu[0].value;
+			var id_id = inpu[1].value;
+			if(!id_id == 18) {
+				alert("号码不对");
+				return;
+			}
+			var id_zheng = img['0'].getAttribute('img_img_img');
+			var id_fan = img['1'].getAttribute('img_img_img');
+			$.ajax({
+				type: "get",
+				url: url_url + "/users/authentication",
+				dataType: 'json',
+				data: {
+					'id': data_id,
+					'name': name,
+					'card': id_id,
+					'positive': id_zheng,
+					'reverse': id_fan
+				},
+				async: true,
+				success: function(data) {
+					console.log(JSON.stringify({
+					'id': data_id,
+					'name': name,
+					'card': id_id,
+					'positive': id_zheng,
+					'reverse': id_fan
+				}))
+					console.log(JSON.stringify(data))
+					if(data.code = 1) {
+						plus.nativeUI.toast('提交成功');
+						localStorage.setItem("state", 2);
+						mui.back();
+					} else {
+						alert('上传失败')
+					}
+
+				},
+				error: function(data) {
+					console.log(JSON.stringify(data));
+				}
+			});
+
+		})
+	</script>
+
+</html>

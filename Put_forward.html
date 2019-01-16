@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<style type="text/css">
+		#butto{width: 100%;height: 100%;background: none;color: #FFFFFF;}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<span class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></span>
+			<h1 class="mui-title">提现</h1>
+			<span class="mui-pull-right" id="forward">提现明细</span>
+		</header>
+		<div class="mui-content ">
+
+			<div class="Put">
+				<a style="color: #007AFF;">请输入提现金额</a>
+				<input id="inpui" type="number" class="mui-input-clear" value="" placeholder="请输入提现金额" min="1">
+				<a style="" id="amount">0.00元</a>
+			</div>
+
+			<div class="Put-a">
+				<a>提现到</a>
+				<a style="float: right;">支付宝账户:<span class="bank">该账户未绑定支付宝账号</span></a>
+			</div>
+			<div class="a-Put">
+				<a>提现扣除手续费<span class="shou">0.1</span>%，平台服务费<span class="shou">4</span>%，每月可提现<span class="shou">一</span>次</a>
+			</div>
+		</div>
+
+		<div class="buoo">
+			<button id="butto">确认提现</button>
+		</div>
+
+		<div class="Put-h1">
+			<span>点击提现，即代表您已同意<a>《提现说明》</a></span>
+		</div>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="js/dui.js"></script>
+		<script>
+			mui.init();
+
+			var url_url = localStorage.getItem('register_url')
+			//获取当前登陆的ID
+			var user_id = localStorage.getItem("data_id");
+
+			//获取支付宝号
+			var a = localStorage.getItem("alipay");
+
+			var inpu = document.getElementById("inpui");
+
+			if(a == '' || a == 'null' || a == null || a == undefined) {
+
+			} else {
+				$('.bank').html(a);
+			}
+
+			//获取提现规则	
+			var shou = document.getElementsByClassName("shou");
+
+			var forward = document.getElementById("forward");
+
+			//手续费
+			show();
+
+			function show() {
+				$.ajax({
+					type: "get",
+					url: url_url + "/rules/infor",
+					async: true,
+					dataType: "json",
+					data: {
+
+					},
+					success: function(data) {
+						shou[0].innerHTML = data.ma_withdrawal_rules_service_charge;
+						shou[1].innerHTML = data.ma_withdrawal_rules_service;
+						shou[2].innerHTML = data.ma_withdrawal_rules_open_select;
+
+					}
+				});
+			}
+
+			//跳转提现明细
+			forward.addEventListener("tap", function() {
+				dui.jump('Detailed.html', 'Detailed');
+			})
+
+			//获取钱包余额
+			var money = localStorage.getItem('money');
+			//提现明细
+			var forward = document.getElementById("forward");
+			//可提现金额
+			var amount = document.getElementById('amount');
+
+			if(money == '' || money == 'null' || money == null || money == undefined) {
+				//获取钱包余额
+				amount.innerHTML = '可提现额:' + 0 + '元';
+			} else {
+				$('#amount').html('可提现额:' + money + '元');
+			}
+
+			//提现
+			$('#butto').click(function() {
+				//获取输入的提现金额
+				var mone = $('#inpui').val();
+			
+
+				$.ajax({
+					type: "post",
+					url: url_url+"/deposit/Add",
+					async: true,
+					dataType: "json",
+					data: {
+						userId: user_id,
+						money: mone,
+						payTarget:0
+					},
+					success: function(data) {
+					
+						if(data.code == 1) {
+							
+							alert("申请提现成功");
+							
+								mui.plusReady(function(){
+					            		
+					            	var wallet = plus.webview.getWebviewById('wallet');
+										mui.fire(wallet,'qianbao',{});
+										mui.back();
+								})
+							
+						} else if(data.code == -1) {
+							alert("当前余额不足");
+							return false;
+						} else if(data.code == -2) {
+							alert("您未绑定支付宝或微信");
+							return false;
+						}else if(data.code == -3){
+							alert("提现金额不能为0元");
+							return false;
+						} else {
+							alert("申请失败");
+							return false;
+						}
+					}
+				});
+			})
+
+			//刷新缓存
+			//				localStorage.setItem("money",money)
+			//dui.jump("wallet.html",'wallet')
+			//			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content">
+			<div class="shezhi_a">
+				<ul class="mui-table-view" style="background: #FFFFFF;">
+					<!--//头像-->
+					<li class="mui-table-view-cell cell">
+						<label>头像</label>
+						<img id="avatar" class="avatar" src="img/1234.jpg" />
+					</li>
+					<!--//用户名-->
+					<li class="mui-table-view-cell cell">
+						<label>姓名</label>
+						<input type="text" placeholder="请输入姓名" class="uname" />
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="buoo">
+			<div class="Set_up" id="set">保存设置</div>
+			<div class="Set_up" onclick="tuichu()">退出账号</div>
+		</div>
+
+		<script type="text/javascript" src="js/castapp.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/dui.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script>
+			mui.init();
+
+			var data_id = localStorage.getItem("data_id");
+			//头像
+			var avatar = document.getElementById("avatar");
+			var uname = document.getElementsByClassName("uname");
+			var url_url = localStorage.getItem("register_url");
+			var Set_up = document.getElementsByClassName("Set_up");
+			var namee = localStorage.getItem("name");
+			$('.uname').val(localStorage.getItem("name"))
+			var img_name = localStorage.getItem("img_name");
+			if(img_name == '' || img_name == null || img_name == undefined) {
+				avatar.src = '';
+			} else {
+				avatar.src = url_url + img_name;
+			}
+			//				点击头像时间
+			avatar.addEventListener("tap", function() {
+				var btnArray = [{
+					title: "照相机"
+				}, {
+					title: "相册"
+				}]; //选择按钮  1 2 3
+
+				plus.nativeUI.actionSheet({
+						title: "请选择",
+						cancel: "取消", // 0
+						buttons: btnArray
+					},
+					function(e) {
+						var index = e.index; // 
+						switch(index) {
+							case 1:
+								//写自己的逻辑
+								camera();
+								break;
+							case 2:
+								album();
+								break;
+						}
+					});
+			})
+			//	相机上传
+			function camera() {
+				var cmr = plus.camera.getCamera();
+				cmr.captureImage(function(p) {
+					//成功
+					plus.io.resolveLocalFileSystemURL(p, function(entry) {
+						var img_name = entry.name; //获得图片名称
+						var img_path = entry.toLocalURL(); //获得图片路径
+						$(".avatar").attr('src', img_path);
+						upload_img(img_path);
+					}, function(e) {
+						alert("读取拍照文件错误：" + e.message);
+					});
+
+				}, function(e) {
+					alert("失败：" + e.message);
+				}, {
+					filename: '_doc/camera/',
+					index: 1
+				}); //  “_doc/camera/“  为保存文件名
+			}
+			//	相册上传
+			function album() {
+				plus.gallery.pick(function(path) {
+					upload_img(path);
+					$(".avatar").attr('src', path);
+				}, function(e) {
+					alert("取消选择图片");
+				}, {
+					filter: "image"
+				});
+			}
+			//初始上传地址  
+			var server = url_url + '/public_upload/Upload';
+			var files = []; //图片存放的数组 可以上传一个，或者多个图片 
+			//上传图片
+			function upload_img(p) {
+				var n = p.substr(p.lastIndexOf('/') + 1);
+				files.push({
+					name: "file",
+					path: p
+				});
+				//开始上传
+				start_upload();
+			}
+			//开始上传
+			function start_upload() {
+				if(files.length <= 0) {
+					plus.nativeUI.alert("没有添加上传文件！");
+					return;
+				}
+				//原生的转圈等待框
+				var wt = plus.nativeUI.showWaiting();
+				var task = plus.uploader.createUpload(server, {
+						method: "POST"
+					},
+					function(t, status) { //上传完成
+						if(status == 200) {
+							//资源
+							var responseText = t.responseText;
+							//						                console.log(responseText);
+							//存图片地址到本地。提交的时候可以去到值//存图片地址到本地。提交的时候可以去到值
+							avatar.setAttribute('img_img_img', responseText);
+
+							wt.close();
+						} else {
+							alert("上传失败：" + status);
+							//关闭原生的转圈等待框
+							wt.close();
+						}
+					});
+				task.addData('signature', localStorage.getItem('token'));
+				for(var i = 0; i < files.length; i++) {
+					var f = files[i];
+					task.addFile(f.path, {
+						key: f.name
+					});
+				}
+				task.start();
+			}
+			//					保存设置按钮
+			$('#set').click(function() {
+				plus.nativeUI.showWaiting()
+				var data_id = localStorage.getItem("data_id");
+				var id_zheng = avatar.getAttribute('img_img_img');
+				if(id_zheng == '' || id_zheng == null || id_zheng == undefined || id_zheng == 'null') {
+					plus.nativeUI.closeWaiting()
+					alert("请上传一张头像！");
+					return;
+				}
+				if(uname[0].value == '' || uname[0].value == null || uname[0].value == undefined || uname[0].value == 'null') {
+					plus.nativeUI.closeWaiting()
+					alert("昵称不能为空！");
+					return;
+				}
+				$.ajax({
+					type: "get",
+					url: url_url + "/users/icon",
+					dataType: 'json',
+					data: {
+						'id': data_id,
+						'icon': id_zheng,
+						'nickName': uname[0].value
+
+					},
+					async: true,
+					success: function(data) {
+						plus.nativeUI.closeWaiting()
+						if(data.code == 1) {
+							localStorage.setItem("img_name", id_zheng);
+							localStorage.setItem("name", uname[0].value);
+							var Order = plus.webview.getWebviewById('my')
+							mui.fire(Order, 'get_user', {});
+							mui.back();
+						} else {
+							alert("修改失败");
+						}
+
+					},
+					error: function(data) {
+						plus.nativeUI.closeWaiting()
+						console.log(JSON.stringify(data));
+					}
+				});
+
+			})
+			function tuichu() {
+				mui.plusReady(function() { //获得首页
+					localStorage.clear()
+					localStorage.setItem('register_url', 'http://www.taoge110.com')
+					var iex = plus.webview.getLaunchWebview();
+
+					mui.fire(iex, 'tuichu', {});
+
+					mui.fire(iex, 'gohome', {});
+
+					iex.show('pop-in', 300);
+
+				});
+
+			};
+		</script>
+
+	</body>
+
+</html>

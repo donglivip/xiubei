@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/mui.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<span class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></span>
+			<h1 class="mui-title">我的钱包</h1>
+			<span class="mui-pull-right" id="capital" onclick="opennew('Profit')">资金流水</span>
+		</header>
+
+		<div class="mui-content">
+			<div class="wallet">
+				<div class="wallet-One">
+					<a class="money">订单押金</a>
+					<h1>￥0（元）</h1>
+				</div>
+				<div class="wallet-Two">
+					<a>账户余额</a>
+					<h1>￥0（元）</h1>
+				</div>
+			</div>
+
+			<div class="wallet-ul">
+				<ul class="mui-table-view" style="background: #FFFFFF;font-size: .22rem;">
+
+					<li class="wallet-li" onclick="opennew('binding')">
+						<a class="">
+							绑定支付宝
+						</a>
+					</li>
+					<li class="wallet-li" onclick="opennew('Recharge')">
+						<a class="">
+							充值
+						</a>
+					</li>
+					<li class="wallet-li" onclick="opennew('Put_forward')">
+						<a class="">
+							提现
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="js/dui.js"></script>
+		<script>
+			mui.init();
+			//标签获取点击事件			
+			var wallet = document.getElementsByTagName('li');
+			var h1 = document.getElementsByTagName("h1");
+			var user_id = localStorage.getItem("data_id");
+			var url_url = localStorage.getItem('register_url')
+			var capital = document.getElementById("capital");
+			var wallet_span = document.getElementsByClassName("wallet_span");
+			//					接收通知	
+			document.addEventListener("qianbao", function() {
+				h111();
+			})
+			//获取钱包余额押金
+			h111();
+			function h111() {
+				$.ajax({
+					type: "GET",
+					url: url_url + "/wallet/balance",
+					dataType: 'json',
+					data: {
+						'user_id': user_id
+					},
+					async: true,
+					success: function(data) {
+						localStorage.setItem('money', data.data.us_user_money_balance);
+						h1[2].innerHTML = data.data.us_user_money_balance;
+					},
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+				$.ajax({
+					type: "GET",
+					url: url_url + "/money/CountStatistics",
+					dataType: 'json',
+					data: {
+						userId: user_id
+					},
+					async: true,
+					success: function(data) {
+						localStorage.setItem('mone', data.data);
+						h1[1].innerHTML = data.data
+					},
+					error: function(data) {
+						console.log(JSON.stringify(data));
+					}
+				});
+			};
+			function opennew(id){
+				mui.openWindow({
+					url:'./'+id+'.html',
+					id:id
+				})
+			}
+		</script>
+	</body>
+
+</html>

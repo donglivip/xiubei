@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/mui.js" ></script>
+		<script type="text/javascript" src="js/rem.js" ></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-back"></a>
+		    <h1 class="mui-title">更换提现账户</h1>
+		</header>
+		
+		<div class="mui-content">
+			
+		    <div class="mui-input-group bangding-div">
+		    	
+		        <div class="mui-input-row bangding">
+		            <label class="labe">支付宝账号：</label>
+		            <input type="text" class="mui-input-clear input" placeholder="请输入支付宝账户">
+		        </div>
+		    </div>
+		    
+		  <!--<div class="mui-input-group bangding-div">
+		     	
+		        <div class="mui-input-row bangding">
+		            <label style="font-size: 14px;" class="labe">姓名</label>
+		            <a class="bangding_a">|</a>
+		            <input type="text" class="mui-input-clear input" placeholder="请输入账户姓名">
+		        </div>
+		    </div>
+		    
+		</div>-->
+		
+		<div class="buoo">
+			<button id='butto'>确定更改</button>
+		</div>
+		
+	</body>
+	
+	<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+	<script type="text/javascript" src="js/dui.js" ></script>
+	<script>
+	
+		
+			var butto=document.getElementById("butto");
+			
+			var url_url=localStorage.getItem("register_url");
+			
+			var id=localStorage.getItem("data_id");
+			
+			var inpu=document.getElementsByClassName("input");
+		
+				butto.addEventListener("tap",function(){
+					
+					if (inpu[0].value=="") {
+						
+						alert("账户不能为空！")
+					}
+					
+					
+					
+					$.ajax({
+			            type: "post",
+			            url: url_url+"/recharge/Bind",
+			            dataType: 'json',
+			            data:{
+			            	'id':id,
+			            	'alipay':inpu[0].value
+	
+			            },
+			            async: true,
+			            success: function (data) {
+							console.log(data)
+							if (data=1) {
+								alert("更换成功，页面即将返回上一页");
+								localStorage.setItem("alipay",inpu[0].value);
+								mui.plusReady(function(){
+									var binding=document.getElementById("binding");		
+											
+									mui.fire(binding,'binding',{});
+									
+									mui.back();
+								})
+								
+								
+								
+								
+							}else if (data=0) {
+								alert("更换失败！上次更换账户和本次账户一致！")
+							}
+			            },
+			            error: function (data) {
+			                console.log(JSON.stringify(data));
+			            }
+			        });
+						
+				
+					
+				})
+				
+		
+	</script>
+
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js" ></script>
+	</head>
+
+	<body>
+		  <header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">押金转余额</h1>
+		</header>
+		
+		<div class="mui-content Reliev">
+			<a>请输解除金额</a>
+			<input id="inpu" type="number" name="pay" class="pay1" value="" placeholder="请输入金额" style="border: 0px;" />
+		</div>
+		
+		<div class="Reliev_div">
+			<span id="Reliev" style="color: #FF0000;">当前可解除金额:￥100元</span>
+		</div>
+		
+
+		<div class="buoo">
+			<button id="butto">确认解除</button>
+		</div>
+		    <script type="text/javascript" src="js/mui.js" ></script>
+			<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+		<script>
+			var inpu=document.getElementById("inpu");
+					
+					var Relie=document.getElementsByTagName("span");
+					var mone=localStorage.getItem("mone");
+					var id=localStorage.getItem("data_id");	
+					var butt=document.getElementById("butto");
+					var url_url=localStorage.getItem("register_url");
+						Relie[0].innerHTML="当前可解除金额:￥"+mone;
+						butt.addEventListener("tap",function(){
+							if (inpu.value==0||inpu.value==null||inpu.value=="null"||inpu.value==undefined) {
+								alert("请输入大于0金额！")
+								return;
+							}
+							
+							$.ajax({
+								type: "post",
+								url: url_url+"/money/BalanceDeposit",
+								dataType: 'json',
+								data: {
+									'userId':id,
+									'money':inpu.value
+								},
+								async: true,
+								success: function(data) {
+									if (code=1) {
+										alert("余额转押金成功");
+										//获取应用首页跳转到首页去
+										mui.plusReady(function(){
+											var wallet = plus.webview.getWebviewById('wallet')
+												mui.fire(wallet,'qianbao', {});
+												mui.back();
+										})
+									}
+										
+								},
+								error: function(data) {
+									console.log(JSON.stringify(data));
+								}
+							});
+							
+						})
+					
+					
+				
+		</script>
+	</body>
+
+</html>

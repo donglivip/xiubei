@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<style type="text/css">
+		.buoo {
+			color: #FFFFFF;
+			justify-content: center;
+			font-size: .24rem;
+		}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">开通会员</h1>
+		</header>
+		<div class="mui-content membership">
+			<div class="mem">
+				<img src="img/c.png" />
+				<span>开通VIP 享专享特权</span>
+			</div>
+			<div class="mem">
+				<span id="num"></span>
+			</div>
+			<div class="membeship">
+				<div class="ship">
+					<a class="VIP">开通VIP 即可获得推荐权限</p>
+						<a>VIP I：受邀用户每次消费可获得<span class="shou">10</span>%现金奖励</p>
+							<a>VIP II：受邀用户每次消费可获得<span class="shou">10</span>%现金奖励</p>
+								<a>VIP III：受邀用户每次消费可获得<span class="shou">10</span>%现金奖励</p>
+									<a>VIP IV：受邀用户每次消费可获得<span class="shou">10</span>%现金奖励</p>
+										<a>受邀用户开通VIP可获得<span style="color: #FF0000;" id="rules02">300</span>元现金奖励</p>
+											<p style="color: #FF0000;">会员升级规则：</p>
+											<p>推荐<span class="upgrade">100</span>人可升级VIP II</p>
+											<p>推荐<span class="upgrade">1000</span>人可升级VIP III</p>
+											<p>推荐<span class="upgrade">1000</span>人可升级VIP IV</p>
+											<p>推荐<span class="upgrade">1000</span>人可升级VIP IV</p>
+										</a>
+									</a>
+								</a>
+							</a>
+						</a>
+					</a>
+				</div>
+			</div>
+			<div class="buoo">
+				立即开通 ￥ <span id="rules">688</span>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script>
+			//获取接口
+			var url_url = localStorage.getItem('register_url');
+			//获取收益百分比
+			var shou = document.getElementsByClassName("shou");
+			//获取vip等级
+			var vip = document.getElementsByClassName("vip");
+			//获取升级规则
+			var upgrade = document.getElementsByClassName("upgrade");
+			//获取当前登陆的ID
+			var user_id = localStorage.getItem("data_id");
+			var buoo = document.getElementsByClassName("buoo");
+			show();
+
+			function show() {
+				$.ajax({
+					type: "post",
+					url: url_url + "/rules",
+					async: true,
+					dataType: "json",
+					success: function(data) {
+						for(var i = 0; i < data.length; i++) {
+							shou[i].innerHTML = data[i].ma_vip_earnings;
+							upgrade[i].innerHTML = data[i].ma_vip_people;
+						}
+
+					}
+				});
+				$.ajax({
+					type: "get",
+					url: url_url + "/api/user/getCount",
+					async: true,
+					data:{
+						userId:localStorage.getItem('data_id')
+					},
+					dataType: "json",
+					success: function(data) {
+						console.log(data)
+						$('#num').html('您已推荐'+ data.count+'人')
+					}
+				});
+				$.ajax({
+					type: "get",
+					url: url_url + "/vipRules",
+					async: true,
+					data:{
+						userId:localStorage.getItem('data_id')
+					},
+					dataType: "json",
+					success: function(data) {
+						$('#rules').html(data.become_vip)
+						$('#rules02').html(data.return_cash)
+					}
+				});
+			}
+			buoo[0].addEventListener("tap", function() {
+				$.ajax({
+					type: "post",
+					url: url_url + "/become",
+					async: true,
+					data: {
+						id: localStorage.getItem('data_id')
+					},
+					success: function(data) {
+						if(data.code==1||data.code==3){
+							plus.nativeUI.toast('开通Vip成功')
+							var my=plus.webview.getWebviewById('My')
+							mui.fire(my,'get_user',{})
+						}else if(data.code==2){
+							plus.nativeUI.toast('您已经是Vip')
+						}else{
+							plus.nativeUI.toast('余额不足请充值！')
+							mui.openWindow({
+								url:'./Recharge.html',
+								id:'Recharge'
+							})
+						}
+					},
+					error: function(err) {
+						console.log(JSON.stringify(err))
+					}
+				});
+			})
+		</script>
+
+	</body>
+
+</html>

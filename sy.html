@@ -1,0 +1,592 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="css/mui.css" />
+		<link href="css/base.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/sy_er.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+	<style type="text/css">
+		body,html,.mui-content {height: 100%;overflow: hidden;}
+		#test {height: calc(100% - 230px);overflow-y: scroll;}
+	</style>
+	<body>
+		<body>
+			<!--<div id="myalert">
+				<img src="img/vip.png" width="55%" onclick="opennew('membership')"/>
+			</div>-->
+			<div class="reset" onclick="reset()">刷新</div>
+			<header class="mui-bar mui-bar-nav base">
+				<a class="mui-btn mui-btn-link mui-pull-right" id="Start">开工</a>
+				<h1 class="mui-title">接单大厅</h1>
+				<h1 class="mui-btn mui-btn-link mui-pull-left"><block id='mycity'>定位中</block></h1>
+			</header>
+			<div class="mui-content">
+				<div class="img-top">
+					<div class="img">
+						<div id="slider" class="mui-slider">
+							<div class="mui-slider-group mui-slider-loop" id="list">
+							</div>
+							<div class="mui-slider-indicator">
+							</div>
+						</div>
+					</div>
+					<div class="img_class news_li">
+						<a class="mui-icon mui-icon-videocam a_class ">公告: <span id="notice"></span></a>
+					</div>
+				</div>
+				<div class="class">
+					<div class="ri_income">
+						<span>今日完成订单：<a class="complete" >0元</a></span>
+					</div>
+					<div class="ri_income">
+						<span>今日获得收入：<a class="complete">0元</a></span>
+					</div>
+				</div>
+				<div class="classa" ;>
+					<div class="ri_inc">
+						<a class="myclas sy_class">
+							抢单<span class="circle" id="qiangc"></span>
+						</a>
+						<a class="myclas">
+							派单<span class="circle" id="paic"></span>
+						</a>
+					</div>
+				</div>
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron" id="test">
+
+				</ul>
+				<audio src="img/music.mp3" preload="auto" id="bgMusic"></audio>
+			</div>
+			<script type="text/javascript" src="js/mui.min.js"></script>
+			<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+			<script type="text/javascript" src="js/dui.js"></script>
+			<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=a3dfe6adfba34c7421630d4b3f2d0c20"></script>
+			<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+			<script>
+				mui.init()
+				var user_id = localStorage.getItem("data_id");
+				localStorage.setItem('register_url', 'http://www.taoge110.com')
+				var Star = document.getElementById("Start");
+				if (localStorage.getItem('ma_vip_id')!='null') {
+					$('#myalert').hide()
+				}
+				$('#myalert').click(function(){
+					$(this).hide()
+				})
+				$('#myalert img').click(function(){
+					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
+						mui.toast("请登录");
+						dui.jump('Sign_in.html', 'Sign_in');
+						return false;
+					}
+					mui.openWindow({
+						url: './membership.html',
+						id: 'membership'
+					})
+				})
+				function reset() {
+					plus.nativeUI.showWaiting()
+					complee()
+					myajax()
+					$('.myclas').eq(0).click()
+				}
+				function plusReady() {
+					plus.geolocation.getCurrentPosition(function(p) {
+						$.ajax({
+							type: "GET",
+							url: url_url + "/setskill/HasSkill",
+							dataType: 'json',
+							async: true,
+							data: {
+								user_id: localStorage.getItem('data_id')
+							},
+							success: function(data) {
+								if(data.code == 0) {
+									plus.nativeUI.toast('您还没有选择技能呢,去个人中心设置技能吧！')
+								} else {
+									if(localStorage.getItem("gong") == 0) {
+										Star.innerHTML = "停工中";
+										plus.nativeUI.toast('您还没有开工呢，点击右上角开始工作吧！')
+									} else {
+										Star.innerHTML = "开工中";
+									}
+								}
+							},
+							error: function(data) {
+								console.log(JSON.stringify(data));
+							}
+						});
+
+						localStorage.setItem('lng', p.coords.latitude)
+						localStorage.setItem('lat', p.coords.longitude)
+						AMap.service('AMap.Geocoder', function() {
+							geocoder = new AMap.Geocoder({
+								city: ""
+							});
+							//		    根据经纬度查地址
+							var lnglatXY = [p.coords.longitude, p.coords.latitude];
+							geocoder.getAddress(lnglatXY, function(status, result) {
+								if(status === 'complete' && result.info === 'OK') {
+									localStorage.setItem('city02', result.regeocode.addressComponent.city)
+									AMap.plugin('AMap.Weather', function() {
+										//创建天气查询实例
+										var weather = new AMap.Weather();
+										//执行实时天气信息查询
+										weather.getLive(result.regeocode.addressComponent.city, function(err, data) {
+											$('#mycity').html(result.regeocode.addressComponent.city + ' ' + data.weather)
+										});
+									});
+								} else {
+									//获取地址失败
+									$('#mycity').html('定位失败')
+								}
+							});
+						})
+					}, function(e) {
+						alert(JSON.stringify(e))
+					});
+					plus.navigator.setStatusBarBackground('#2484E8');
+					plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('register_url') + "/api/svn/up",
+							dataType: 'json',
+							success: function(res) {
+								if(res.pb_svn_number != inf.version) {
+									//										版本更新
+									plus.nativeUI.showWaiting("下载更新资源包,请勿关闭页面！");
+									plus.downloader.createDownload(res.pb_svn_url, {
+										filename: "_doc/update/"
+									}, function(d, status) {
+										if(status == 200) {
+											plus.runtime.install(d.filename, {}, function() {
+												plus.nativeUI.closeWaiting();
+												plus.nativeUI.alert("应用资源更新完成！点击重启！", function() {
+													plus.runtime.restart();
+												});
+											}, function(e) {
+												plus.nativeUI.closeWaiting();
+												plus.nativeUI.alert("安装更新包失败[" + e.code + "]：" + e.message);
+											});
+										} else {
+											plus.nativeUI.closeWaiting();
+											plus.nativeUI.alert("下载更新包失败！");
+										}
+									}).start();
+								} else {
+
+								}
+							},
+							error: function(err) {
+								alert(JSON.stringify(localStorage.getItem('register_url') + "/svn/up"))
+							}
+						});
+					});
+				}
+				if(window.plus) {
+					plusReady();
+				} else {
+					document.addEventListener("plusready", plusReady, false);
+				}
+				document.addEventListener("haveOrder", function() {
+					complee()
+					$('.myclas').eq(0).click()
+				})
+				var phone = localStorage.getItem("user_id");
+				var img_img = document.getElementsByClassName("img_img");
+				var url_url = localStorage.getItem("register_url");
+				var complete = document.getElementsByClassName("complete");
+				var list = document.getElementById("list");
+				//首页图片
+				img_mg();
+				var lie_bie = document.getElementsByClassName("lie_bie");
+				var url_url = localStorage.getItem("register_url");
+				function go(id) {
+					if(localStorage.getItem("gong") == 0) {
+						Star.innerHTML = "停工中";
+						plus.nativeUI.toast('您还没有开工呢，点击右上角开始工作吧！')
+						return false;
+					} else {
+						Star.innerHTML = "开工中";
+					}
+					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
+						mui.toast("请登录");
+						dui.jump('Sign_in.html', 'Sign_in');
+						return false;
+					}
+					localStorage.setItem('orderid', id);
+					mui.openWindow({
+						url: './Order_details.html',
+						id: 'Order_details'
+					})
+				}
+				//今日完成单数 收入
+				complee();
+				//获取轮播图
+				function img_mg() {
+					$.ajax({
+						type: "GET",
+						url: url_url + "/banner/list",
+						dataType: 'json',
+						async: true,
+						success: function(data) {
+							for(var a in data.data) {
+								if(data.data[a].pb_banner_img_path == 0) {
+									var tpml = '<div class="mui-slider-item mui-slider-item-duplicate">' +
+										'<img class="img_img" src="' + url_url + data.data[a].pb_banner_img_path + '">' +
+										'</div>';
+								} else {
+									var tpml = '<div class="mui-slider-item mui-slider-item-duplicate">' +
+										'<img  class="img_img" src="' + url_url + data.data[a].pb_banner_img_path + '">' +
+										'</div>';
+
+								}
+								list.innerHTML += tpml;
+							}
+							 mui('#slider').slider({
+		                        interval: 3000 //自动播放周期
+		                    });
+						},
+						error: function(data) {
+							console.log(JSON.stringify(data));
+						}
+					});
+					$.ajax({
+						type: "GET",
+						url: url_url + "/notice",
+						dataType: 'json',
+						async: true,
+						success: function(data) {
+							if(data.length != 0) {
+								$('#notice').html(data[0].pb_notice_title)
+							} else {
+								$('#notice').html('暂无公告')
+							}
+
+						},
+						error: function(data) {
+							console.log(JSON.stringify(data));
+						}
+					});
+				};
+
+				//获取订单量
+				function complee() {
+					$.ajax({
+						type: "get",
+						url: url_url + "/user/today",
+						dataType: 'json',
+						data: {
+							'user_id': user_id
+						},
+						async: true,
+						success: function(data) {
+							complete[0].innerHTML = data.data.today_count;
+							complete[1].innerHTML = data.data.today_price;
+						},
+						error: function(data) {
+							console.log(JSON.stringify(data));
+						}
+					});
+				};
+
+				function myajax() {
+					$('#test').html('')
+					//					抢单
+					$.ajax({
+						type: "get",
+						url: url_url + "/task/preemption",
+						dataType: 'json',
+						data: {
+							region: localStorage.getItem('city02'),
+							page: 1,
+							id: localStorage.getItem('data_id'),
+							limit: 10
+						},
+						async: true,
+						success: function(data) {
+							if(data.data.length == 0) {
+								$('#qiangc').hide()
+							}
+							for(var i = 0; i < data.data.length; i++) {
+								$('#test').append(`
+										<div class="lie_bie type01" onclick='go(${data.data[i].pb_order_id})'>
+											<div class="div_li">
+												<a class="li_li">订单类型:</a>
+											</div>
+											<div class="div_lr">
+												<a class="li_lt">${data.data[i].pb_skill_type_one_title} - ${data.data[i].pb_skill_type_title}</a>
+											</div>
+					
+											<div class="div_li">
+												<a class="li_li">上门时间:</a>
+											</div>
+											<div class="div_lr">
+												<a class="li_lt">${data.data[i].time}</a>
+											</div>
+					
+											<div class="div_li" style="width: 20%;">
+												<a class="li_li">订单地址:</a>
+											</div>
+											<div class="div_lr" style="width: 80%;font-size: 0.24rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+												<a class="li_lt">${data.data[i].pb_region_text} - ${data.data[i].pb_order_detailed}</a>
+											</div>
+					
+											<div class="div_li">
+												<a class="li_li">订单押金:</a>
+											</div>
+											<div class="div_lr">
+												<a class="li_lt">${data.data[i].pb_order_deposit}元</a>
+											</div>
+										</div>
+									
+								`)
+							}
+
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+						},
+						error: function(data) {
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+								$('#qiangc').hide()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+
+						}
+					});
+					//					派单
+					$.ajax({
+						type: "get",
+						url: url_url + "/task/assignment",
+						dataType: 'json',
+						data: {
+							user_id: localStorage.getItem('data_id')
+						},
+						async: true,
+						success: function(data) {
+							if(data.data.length == 0) {
+								$('#paic').hide()
+							}
+							for(var i = 0; i < data.data.length; i++) {
+								$('#test').append(`
+									<div class="lie_bie type02" onclick='go(${data.data[i].pb_order_id})' style='display:none'>
+										<div class="div_li">
+											<a class="li_li">订单类型:</a>
+										</div>
+				
+										<div class="div_lr">
+											<a class="li_lt">${data.data[i].pb_skill_name1} - ${data.data[i].pb_skill_name2}</a>
+										</div>
+				
+										<div class="div_li">
+											<a class="li_li">上门时间:</a>
+										</div>
+										<div class="div_lr">
+											<a class="li_lt">${data.data[i].pb_order_door_time}</a>
+										</div>
+				
+										<div class="div_li">
+											<a class="li_li">订单地址:</a>
+										</div>
+										<div class="div_lr">
+											<a class="li_lt">${data.data[i].pb_order_detailed}</a>
+										</div>
+				
+										<div class="div_li">
+											<a class="li_li">订单押金:</a>
+										</div>
+										<div class="div_lr">
+											<a class="li_lt">${data.data[i].pb_order_deposit}元</a>
+										</div>
+									</div>
+								`)
+							}
+
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+						},
+						error: function(data) {
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+								$('#paic').hide()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+						}
+
+					});
+				}
+				//开工停工
+				Star.addEventListener("tap", function() {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting()
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						mui.toast("请登录");
+						dui.jump('Sign_in.html', 'Sign_in');
+						return;
+					}
+					if(localStorage.getItem("gong") == 1) {
+						//停止获取数据
+						$.ajax({
+							type: "get",
+							url: url_url + "/api/user/coordinate",
+							dataType: 'json',
+							data: {
+								id: user_id,
+								us_user_x: 0,
+								us_user_y: 0
+							},
+							async: true,
+							success: function(data) {
+								Star.innerHTML = "停工中";
+								localStorage.setItem("gong", 0)
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							},
+							error: function(data) {
+								console.log(JSON.stringify(data));
+							}
+						});
+					} else {
+						//请求数据
+						plus.geolocation.getCurrentPosition(function(p) {
+							$.ajax({
+								type: "get",
+								url: url_url + "/api/user/coordinate",
+								dataType: 'json',
+								data: {
+									id: user_id,
+									us_user_x: p.coords.longitude,
+									us_user_y: p.coords.latitude
+								},
+								async: true,
+								success: function(data) {
+									Star.innerHTML = "开工中";
+									localStorage.setItem("gong", 1)
+
+									function plusReady() {
+										// 弹出系统等待对话框
+										plus.nativeUI.closeWaiting()
+									}
+									if(window.plus) {
+										plusReady();
+									} else {
+										document.addEventListener("plusready", plusReady, false);
+									}
+								},
+								error: function(data) {
+									console.log(JSON.stringify(data));
+								}
+							});
+						}, function(e) {
+							that.city = '获取失败'
+						});
+					}
+				})
+				$('.myclas').click(function() {
+					$('.myclas').removeClass('sy_class')
+					$(this).addClass('sy_class')
+					if($(this).index() == 0) {
+						$('.type01').show()
+						$('.type02').hide()
+					} else {
+						$('.type01').hide()
+						$('.type02').show()
+					}
+				})
+				reset()
+				setInterval(function() {
+					$.ajax({
+						type: "GET",
+						url: url_url + "/api/sms/isHaveNotLook",
+						dataType: 'json',
+						async: true,
+						data: {
+							userId: localStorage.getItem('data_id')
+						},
+						success: function(data) {
+							if(data.code == 1) {
+								var audio = document.getElementById("bgMusic");
+								//播放(继续播放)
+								audio.play();
+								$.ajax({
+									type: "GET",
+									url: url_url + "/api/sms/setOrderIsLook",
+									dataType: 'json',
+									async: true,
+									data: {
+										pb_order_number: data.data.orderNumber
+									},
+									success: function(data) {
+										
+									},
+									error: function(data) {
+										
+									}
+								});
+							}
+						},
+						error: function(data) {
+							console.log(JSON.stringify(data));
+						}
+					});
+				}, 5000)
+			</script>
+
+		</body>
+
+</html>

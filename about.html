@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/base.css" />
+		<script type="text/javascript" src="js/rem.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav base">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">关于我们</h1>
+		</header>
+		<div class="mui-content h1_class">
+			<span class="diz">公司地址：内蒙古包头市一宫环岛恒通城尚城A座200号</span>
+			<p class="diz" style="text-align: center;">联系电话：04725222222</p>
+			<span class="diz" style="text-align: center;display: block;"></span>
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+
+		<script>
+			var url_url = localStorage.getItem("register_url");
+			var diz = document.getElementsByClassName("diz");
+
+			di();
+
+			function di() {
+				$.ajax({
+					type: "get",
+					url: url_url + "/company/take",
+					dataType: 'json',
+					async: true,
+					success: function(data) {
+						diz[1].innerHTML = "公司地址:" + data.data.company_name
+						diz[2].innerHTML = "公司电话:" + data.data.company_phone
+						diz[0].innerHTML = data.data.company_text
+
+					},
+					error: function(data) {
+						console.log(JSON.stringify(data));
+
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>
