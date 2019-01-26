@@ -136,12 +136,18 @@
 									send_orders_state: 1
 								},
 								success: function(data) {
-									console.log(JSON.stringify(data))
 									if(data.status == 1) {
+										var music = new Audio();
+										music.src = "./img/jiedanchenggong.wav";
+										music.play()
 										var order=plus.webview.getWebviewById('Order')
 										mui.fire(order,'haveOrder',{})
-										plus.nativeUI.toast("接单成功");
-										mui.back()
+										var sy=plus.webview.getWebviewById('sy')
+										mui.fire(sy,'haveOrder',{})
+										plus.nativeUI.toast("接单成功,请到订单中查看");
+										setTimeout(function(){
+											mui.back()
+										},800)
 									} else {
 										alert(data.msg)
 									}
@@ -168,10 +174,17 @@
 								},
 								success: function(data) {
 									if(data.status == 1) {
+										var music = new Audio();
+										music.src = "./img/jiedanchenggong.wav";
+										music.play()
+										var sy=plus.webview.getWebviewById('sy')
+										mui.fire(sy,'haveOrder',{})
 										var order=plus.webview.getWebviewById('Order')
 										mui.fire(order,'haveOrder',{})
-										plus.nativeUI.toast("接单成功");
-										mui.back()
+										plus.nativeUI.toast("接单成功，请到订单中查看");
+										setTimeout(function(){
+											mui.back()
+										},800)
 									} else {
 										plus.nativeUI.toast("该订单已被抢啦，下次记得早点来呦~");
 									}

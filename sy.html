@@ -11,17 +11,28 @@
 		<script type="text/javascript" src="js/rem.js"></script>
 	</head>
 	<style type="text/css">
-		body,html,.mui-content {height: 100%;overflow: hidden;}
-		#test {height: calc(100% - 230px);overflow-y: scroll;}
+		body,
+		html,
+		.mui-content {
+			height: 100%;
+			overflow: hidden;
+		}
+		
+		#test {
+			height: calc(100% - 230px);
+			overflow-y: scroll;
+		}
 	</style>
+
 	<body>
+
 		<body>
 			<!--<div id="myalert">
 				<img src="img/vip.png" width="55%" onclick="opennew('membership')"/>
 			</div>-->
-			<div class="reset" onclick="reset()">刷新</div>
+			<!--<div class="reset" onclick="reset()">刷新</div>-->
 			<header class="mui-bar mui-bar-nav base">
-				<a class="mui-btn mui-btn-link mui-pull-right" id="Start">开工</a>
+				<a class="mui-btn mui-btn-link mui-pull-right" id="Start">马上开工</a>
 				<h1 class="mui-title">接单大厅</h1>
 				<h1 class="mui-btn mui-btn-link mui-pull-left"><block id='mycity'>定位中</block></h1>
 			</header>
@@ -61,7 +72,7 @@
 				<ul class="mui-table-view mui-table-view-chevron" id="test">
 
 				</ul>
-				<audio src="img/music.mp3" preload="auto" id="bgMusic"></audio>
+				<audio src="img/xindingdan.wav" preload="auto" id="bgMusic"></audio>
 			</div>
 			<script type="text/javascript" src="js/mui.min.js"></script>
 			<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
@@ -71,15 +82,15 @@
 			<script>
 				mui.init()
 				var user_id = localStorage.getItem("data_id");
-				localStorage.setItem('register_url', 'http://www.taoge110.com')
+				localStorage.setItem('register_url', 'http://www.bmwnxg.com')
 				var Star = document.getElementById("Start");
-				if (localStorage.getItem('ma_vip_id')!='null') {
+				if(localStorage.getItem('ma_vip_id') != 'null') {
 					$('#myalert').hide()
 				}
-				$('#myalert').click(function(){
+				$('#myalert').click(function() {
 					$(this).hide()
 				})
-				$('#myalert img').click(function(){
+				$('#myalert img').click(function() {
 					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
 						mui.toast("请登录");
 						dui.jump('Sign_in.html', 'Sign_in');
@@ -90,12 +101,15 @@
 						id: 'membership'
 					})
 				})
+
 				function reset() {
-					plus.nativeUI.showWaiting()
 					complee()
 					myajax()
-					$('.myclas').eq(0).click()
+					setTimeout(function() {
+						reset()
+					}, 30000)
 				}
+
 				function plusReady() {
 					plus.geolocation.getCurrentPosition(function(p) {
 						$.ajax({
@@ -111,10 +125,10 @@
 									plus.nativeUI.toast('您还没有选择技能呢,去个人中心设置技能吧！')
 								} else {
 									if(localStorage.getItem("gong") == 0) {
-										Star.innerHTML = "停工中";
+										Star.innerHTML = "马上开工";
 										plus.nativeUI.toast('您还没有开工呢，点击右上角开始工作吧！')
 									} else {
-										Star.innerHTML = "开工中";
+										Star.innerHTML = "马上停工";
 									}
 								}
 							},
@@ -122,7 +136,6 @@
 								console.log(JSON.stringify(data));
 							}
 						});
-
 						localStorage.setItem('lng', p.coords.latitude)
 						localStorage.setItem('lat', p.coords.longitude)
 						AMap.service('AMap.Geocoder', function() {
@@ -149,7 +162,7 @@
 							});
 						})
 					}, function(e) {
-						alert(JSON.stringify(e))
+						alert('定位失败，请检查网络和GPS后重新打开app！')
 					});
 					plus.navigator.setStatusBarBackground('#2484E8');
 					plus.runtime.getProperty(plus.runtime.appid, function(inf) {
@@ -184,7 +197,7 @@
 								}
 							},
 							error: function(err) {
-								alert(JSON.stringify(localStorage.getItem('register_url') + "/svn/up"))
+
 							}
 						});
 					});
@@ -195,8 +208,7 @@
 					document.addEventListener("plusready", plusReady, false);
 				}
 				document.addEventListener("haveOrder", function() {
-					complee()
-					$('.myclas').eq(0).click()
+					reset()
 				})
 				var phone = localStorage.getItem("user_id");
 				var img_img = document.getElementsByClassName("img_img");
@@ -207,13 +219,14 @@
 				img_mg();
 				var lie_bie = document.getElementsByClassName("lie_bie");
 				var url_url = localStorage.getItem("register_url");
+
 				function go(id) {
 					if(localStorage.getItem("gong") == 0) {
-						Star.innerHTML = "停工中";
+						Star.innerHTML = "马上开工";
 						plus.nativeUI.toast('您还没有开工呢，点击右上角开始工作吧！')
 						return false;
 					} else {
-						Star.innerHTML = "开工中";
+						Star.innerHTML = "马上停工";
 					}
 					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
 						mui.toast("请登录");
@@ -249,9 +262,9 @@
 								}
 								list.innerHTML += tpml;
 							}
-							 mui('#slider').slider({
-		                        interval: 3000 //自动播放周期
-		                    });
+							mui('#slider').slider({
+								interval: 3000 //自动播放周期
+							});
 						},
 						error: function(data) {
 							console.log(JSON.stringify(data));
@@ -313,6 +326,8 @@
 						success: function(data) {
 							if(data.data.length == 0) {
 								$('#qiangc').hide()
+							} else {
+								$('#qiangc').html(data.data.length)
 							}
 							for(var i = 0; i < data.data.length; i++) {
 								$('#test').append(`
@@ -335,7 +350,7 @@
 												<a class="li_li">订单地址:</a>
 											</div>
 											<div class="div_lr" style="width: 80%;font-size: 0.24rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-												<a class="li_lt">${data.data[i].pb_region_text} - ${data.data[i].pb_order_detailed}</a>
+												<a class="li_lt">${data.data[i].pb_region_text}</a>
 											</div>
 					
 											<div class="div_li">
@@ -385,6 +400,8 @@
 						success: function(data) {
 							if(data.data.length == 0) {
 								$('#paic').hide()
+							} else {
+								$('#paic').html(data.data.length)
 							}
 							for(var i = 0; i < data.data.length; i++) {
 								$('#test').append(`
@@ -408,7 +425,7 @@
 											<a class="li_li">订单地址:</a>
 										</div>
 										<div class="div_lr">
-											<a class="li_lt">${data.data[i].pb_order_detailed}</a>
+											<a class="li_lt">${data.data[i].pb_region_text}</a>
 										</div>
 				
 										<div class="div_li">
@@ -484,7 +501,10 @@
 							},
 							async: true,
 							success: function(data) {
-								Star.innerHTML = "停工中";
+								Star.innerHTML = "马上开工";
+								var music = new Audio();
+								music.src = "./img/close.wav";
+								music.play()
 								localStorage.setItem("gong", 0)
 
 								function plusReady() {
@@ -515,7 +535,10 @@
 								},
 								async: true,
 								success: function(data) {
-									Star.innerHTML = "开工中";
+									Star.innerHTML = "马上停工";
+									var music = new Audio();
+									music.src = "./img/open.wav";
+									music.play()
 									localStorage.setItem("gong", 1)
 
 									function plusReady() {
@@ -572,12 +595,14 @@
 										pb_order_number: data.data.orderNumber
 									},
 									success: function(data) {
-										
+
 									},
 									error: function(data) {
-										
+
 									}
 								});
+								var info = plus.push.getClientInfo();
+								plus.push.createMessage('您有新的订单啦,请点击查看!');
 							}
 						},
 						error: function(data) {

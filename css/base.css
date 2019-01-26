@@ -1,262 +1,1256 @@
 /*接单大厅*/
-.reset{background: rgba(255,255,255,.5);border-radius: .25rem;position: fixed;bottom: .4rem;z-index: 999;font-size: .24rem;box-shadow: 0 0 2px 2px #2484E8;left: calc(50% - .75rem);width: 1.5rem;height:.5rem;display: flex;align-items: center;justify-content: center;}
-*{margin: 0;padding: 0;}
-.circle{width: .1rem;height: .1rem;background: red;border-radius: 50%;display: inline-block;position: relative;bottom: .2rem;left: .2rem;}
-.base{background:#2484E8;}
-.base a{color: #FFFFFF!important;}
-.base h1 {color: #FFFFFF!important;} 
-.base h1 a{color: #FFFFFF;}
-.base span{color: #FFFFFF;margin-top: 0.22rem;font-size: 0.24rem;}
-.img img{height: 2.4rem;width:100%; margin-top:1px;text-align: center;}
-.img{position: fixed;} 
-.img,.a_class{text-align: center;}
-.a_class{position: relative; background-color: rgba(0,0,0,0.3);color: #FFFFFF;height: 0.5rem;width: 90%;border-radius:0.4rem;font-size:0.24rem;line-height: 0.5rem;}
-.img{height: 160px;padding: 0px 2px;}
-.img_class{text-align: center;font-size:0.2rem;line-height: 50px;}
-.img_class a{font-size: 0.28rem;height: 30px;line-height: 30px;}
-.mui-icon-videocam:before{font-size: 0.36rem;}
-.class{margin-bottom:1%;width:100%;height: 50px;background: #FFFFFF;margin-top: 75px;}
-.ri_income{width:50%;;height: 50px;line-height:2.8;text-align: center;}
-.ri_income span{color: #000000;font-size: 0.28rem;}
-.ri_income a{color: #FF0000;}
-.ri_income h2{height:5px;}
-.class{display: flex;flex-flow: wrap;height:50px; width: 100%;height:50px;align-items: center;background:#FFFFFF;}
-.ri_inc{width:100%;height:50px;line-height: 50px;background:#FFFFFF;margin-bottom: .1rem;}
-.ri_inc a{padding:0.2rem;width:100%;color: #007AFF;margin-left:1.7rem}
-/*切换*/
-.sy_class{border-bottom:3px solid;}
-.img_classs{text-align: center;}
-.img_classs img{width: 100px;border-radius:100px;margin-top: 50px;}
-/*隐藏*/
-.isplay{display: none;}
-/*显示*/
-.splay{display: block;}
-.Boun span{text-align:center;margin-top: 10px;}
 
-/*我的订单*/
-.ri_inc h5{background:#0062CC;border-radius:0.rem; height:0.01rem;width: 20%;margin-left:40%;}
-.lie_bie{margin-bottom:.2rem;/*clear: both;*/height: 2.8rem;padding: 0.2rem;background: #FFFFFF;display:flex;flex-flow:wrap;}
-.div_li{width:50%;height:0.4rem;font-size: 0.24rem;}
-.div_lr{width: 50%;font-size: 0.24rem;text-align:right;}
-.div_li a{color: #000000;}
-.div_lr a{color: #000000;}
-.buoot{clear: both;text-align: right;margin-top:2%;}
-.buoot button{background: #2484E8;color: #FFFFFF;border: 0rem solid #ccc;border-radius:0.32rem;}
-.tiao_tiao{height: 0.02rem;background: #B6B6B6;margin-top: 0.24rem;}
-.sy_er{border-bottom: 1px solid red;}
-
-/*我的*/
-.class_Head{width: 100%;height: 2.6rem;text-align: center;margin-top:0rem;background:#2484E8;}
-.img_Head{width: 25%;float: left;}
-.a_Head{width: 40%;float: left;}
-.tication {width:25%;float: left;border: 0rem;}
-.img_Head img{width: 1rem;height:1rem;border-radius:8% ;margin-top:0.7rem;}
-.a_Head{width :50%;height: 1.4rem;margin-top: 0.8rem;}
-.a_Head-One{width: 100%;width:100%;overflow:hidden;}
-.a_Head-One img{width: 20px;}
-.a_Head-Two{font-size: 0.24rem;}
-.a_Head-Two span{float: left;}
-.a_Head span{font-size: 0.24rem;float: left;color: #FFFFFF;}
-.tication{margin-top:1rem;}
-.tication a{background: #FFFFFF;color: #000000;padding: 0.2rem .3rem;border-radius:0.1rem ;font-size: 0.22rem;}
-.ul_li{margin-top: 0.4rem;}
-.mui-table-view:before{height:0rem;}
-.ul_li ul li img{width: 0.4rem;}
-.ul_li ul li a{font-size: 0.24rem;}
-.mui-table-view-cell{width: 100%;}
-.mui-table-view-cell img{width: 10%;float: left;margin-right: 0.18rem;}
-.mui-table-view-cell a{width: 90%;float: left;margin-right: 0.3rem;}
-.span{margin-right: -0.2rem;}
-.mui-table-view:after{height:0.02rem;}
-/*去掉线条*/
-/*去线条*/
-.mui-bar-nav {
-    top: 0rem;
-    -webkit-box-shadow: 0rem 0.02rem 0.12rem #ccc;
-     box-shadow: 0 0 0 0; 
+.reset {
+	background: rgba(255, 255, 255, .5);
+	border-radius: 0.25rem;
+	position: fixed;
+	bottom: 0.4rem;
+	z-index: 999;
+	font-size: 0.24rem;
+	box-shadow: 0 0 2px 2px #2484E8;
+	left: calc(50% - .75rem);
+	width: 1.5rem;
+	height: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center
 }
-/*关于我们*/
-.h1_class{padding: 0.2rem;}
-.h1_class span{font-size: 0.24rem;margin-top: 0.5rem;}
-.h1_class p{color: #000000;}
-.class_img{text-align: center;}
-.img{widows: 4rem;height: 2.5rem;}
-.diz p{text-align: center;color: #00000;}
-/*帮助*/
-.top{padding-top: 0.6rem!important;background: #FFFFFF;}
-.top_li a{width:45%;font-size: 0.24rem;float: left;}
-.top a{padding:0.32rem;}
-.top_li span{font-size: 0.24rem;}
-/*问题详情*/
-.img_san{text-align: center;margin-top: 0.1rem;}
-/*设置中心*/
- 
-/*我的钱包*/
-.wallet_span{font-size:.24rem}
-.wallet{text-align: center;height: 2rem;background: #FFFFFF;}
-.wallet-One{width: 50%;height:2rem;float:right;padding: 0.02rem;line-height: 1rem;}
-.wallet-Two{width: 50%;height:2rem;float:right;padding: 0.02rem;line-height: 1rem;}
-.wallet div h1{font-size: 0.28rem;color:#FF0000;margin-top: 0.1rem;}
-.wallet div a{color:#000000;}
-.wallet-ul{margin-top: 0.1rem;}
-.wallet-li{width: 100%;overflow: hidden;padding: 0.22rem 0.3rem;color:#000000;border-bottom: 1px solid #f4f4f4;}
-.wallet-li a{color: #000000;height: 0.04rem;}
-.mui-bar-nav.mui-bar .mui-icon {margin-right: -0.2rem;margin-left: -0.2rem; padding-right: 0.2rem;padding-left: 0.2rem;margin-top: 0.02rem;}
-/*绑定支付宝*/
-.bangding-div div label{font-size: 0.24rem;}
-.bangding-div div input{font-size: 0.24rem;}
-.bangding a{color: #000000;line-height: 0.7rem;}
-.bangding label{font-size: 0.28rem;width: 35%}
-.bangding input{width: 65%;font-size: 0.28rem;}
-#inpu{width: 65%!important;font-size: 0.28rem;}
-#inpui{width: 100%!important;font-size: 0.28rem;}
-.mui-input-group .mui-input-row:after{ height: 0rem;}
-.mui-input-group:after{height: 0rem;}
-.buoo{margin-top: 1rem;background:#2484E8;height:1rem;position: fixed;bottom: 0;left: 0;width: 100%;display: flex;align-items: center;}
-.buoo .Set_up{color: #FFFFFF;border: 0rem;flex: 1;border-radius: 0;text-align: center;font-size: .22rem;height: .25rem;line-height: .25rem;}
-.buoo .Set_up:first-of-type{border-right: 1px solid #FFFFFF;} 
-.bin-img_img {text-align: center;background: #EEEEEE;}
-.bin-img_img img{width: 1.6rem; height: 1.6rem;border-radius:2rem;margin-top: 0.4rem;}
-/*充值页面*/
-.Recharge{margin-top: 0.4rem;padding: 0.2rem;background: #FFFFFF;}
-.Recharge a{color:#04271D;margin: 0.3rem;}
-.Recharge h1{color:#04271D;font-size: 0.72rem;margin-top: 0.1rem;}
-#Recharge-div{padding: 0.2rem;background: #FFFFFF;font-size: 0.24rem;margin-top: 0.02rem;height: 2rem;}
-#Recharge-div img{height:0.6rem;width: 0.6rem;margin-left: 0.5rem;}
-.pay1{margin-bottom: 0px;}
-.Recharge input{margin-bottom: 0px;}
-.Recharge a{color: #2484E8;}
-.Recharge-img{margin-top: 0.2rem;display: flex}
-/*提现*/
-.Put{background: #FFFFFF;padding: 0.2rem;height: 2.6rem;}
-.Put h1{height: 1rem;}
-.Put a{top: 0.1rem;color: #000000;}
-.Put-a {background: #FFFFFF;margin-top: 0.02rem;height: 0.9rem;line-height: 0.5rem;font-size: 0.28rem;padding:  0.2rem 0.4rem;color: #000000;}
-.Put-a a{color: #000000;}
-.Put-a a input{border: 0rem;color: #D8D8D8;float: right;}
-.a-Put a{font-size: 0.22rem;color: #000000;padding: 0.2rem;}
-.Put-h1{text-align: center;margin-top: 1rem;}
-.Put-h1 span{font-size:0.24rem;}
-.Put input{padding: 0rem 0rem;border-bottom:0.02rem;border: 0rem;}
-/*实名认证*/
-.tion a{font-size: 0.24rem;color: #000000;margin: 0.2rem;display: block;}
-.div-div{width: 100%;background: #FFFFFF;padding: 0.4rem;}
-.tion-img{background: #DDDDDD;height: 3rem;}
-.tion-img h1{font-size: 0.24rem;}
-.img_ti img{height: 1.6rem;margin-top: 0.3rem;}
-.tion-img{margin-top: 0.1rem;}
-/*.tica div{font-size: 14px;}
-.tica input{font-size: 14px;}
-.tion a{font-size: 12px;padding: 0px;top: 3px;color: #000000;}
-.tion {background:#FFFFFF;margin-top:3px;height: 350px;padding-top:10px;border: 1px solid red;width: 100%;}
-.tion-div{background: #D3D8E1 ;width: 180px;height: 130px;margin-top: 10px;}
-.tion-img img{width: 50px;margin-top: 30px;}
-.tion-img h1{font-size: 12px;}*/
-.btn{text-align: center;margin-top: 0.5rem;}
-.btn button{height: 0.9rem;width: 95%; background: #0062CC!important;color: #FFFFFF;border-radius:2rem;border: 0rem;}
-.div-div{width:100%;text-align: center;}
-/*设置*/
-.cell label{font-size: 12px;}
-.cell input{font-size: 12px;}
-.cell img{width: 45px;height:45px;float: right;margin-left: 0.2rem;border-radius:0.2rem ;}
-.cell label{width: 20%;line-height:45px;float: left;}
-.cell input{width: 80%;float: left;margin: 0rem;border: 0rem;text-align: right;}
 
-/*注册页面*/
-.register{height: 1.3rem;width: 100%;background: #FFFFFF;overflow: hidden;padding: 0.2rem;margin-top: 0.02rem;display: flex;align-items: center;justify-content: center;}
-.register #mobile ,.register #doCompare{height: 0.5rem;margin-top:0.14rem;width: 100%;border: 0rem;font-size: 0.24rem;color: #D8D8D8;}
-.register1{height: 1.3rem;width: 100%;background: #FFFFFF;overflow: hidden;padding: 0.2rem;margin-top: 0.02rem;}
-.register {display: flex;align-content: center;justify-content: space-between;}
-.register #btn{width: 2.4rem;height: 0.6rem;margin: 0.1rem;top: 0.1rem;}
-.register div{height: 0.5rem;margin-top: 0.14rem;width: 20%;float: right;border: 0.02rem solid #BBBBBB;text-align: center;font-size: 0.22rem;line-height: -0.02rem;}
-.register-buoot{text-align: center;margin-top: 0.9rem;}
-.register-buoot button{width: 95%;height: 0.9rem;background:#2484E8;color: #FFFFFF;border: 0rem;}
-.register_Agreement{overflow: hidden;width:95%;margin-left: 0.16rem;margin-top: 0.2rem;}
-.register_Agreement span{font-size: 0.2rem;text-align: center;float: left;}
-.register input{font-size: 0.24rem;border: 0rem;margin: 0;}
-.register #pass{font-size: 0.24rem;border: 0rem;width: 60%;}
-/*我的订单*/
-.myorder{display: flex;align-items: center;justify-content: space-between;border-bottom: 1px solid #f4f4f4;font-size: .22rem;}
-.ri_come a{width: 33.33%;margin : 0.03rem;display: flex;align-items: center;justify-content: center;height: 100%;}
-/*class="Order_a"*/
-.me-active-a{border-bottom:1px solid #2484E8;color: #2484E8;}
-.mui-table-view{background: #f5f5f5;}
-.ri_come{background: #FFFFFF;align-items: center;height: 1.2rem;border-bottom:1px solid #f4f4f4;}
-.Order_ca{background: #FFFFFF;padding: 0.02rem;border-bottom:1px solid #f4f4f4;overflow: hidden;}
-.Order_span{font-size: 0.24rem;margin: .1rem 0;padding: 0.04rem 0.4rem;}
-/*.Orderbada{float:right;}*/
-.Order_daoh{border: 0.01rem solid #DDDDDD;padding: 0.2rem;background: #FFFFFF;}
-.Ord button,.Ord a{border: 0.02rem solid #2484E8 ;font-size:0.22rem;border-radius: 1rem;display: inline-block;padding: .1rem .2rem;margin: 0 .1rem;}
-.Ord{border-top: 0.01rem solid #DDDDDD;padding: 0.2rem;background: #FFFFFF;border-top: 0.02rem solid #DDDDDD;}
-/*工作流程*/
-.fulfi{width: 100%;overflow: hidden;padding: 0.2rem;background: #FFFFFF;margin-top: 0.2rem;border-bottom:0rem ;}
-.fulfi a{font-size: 0.22rem;border-radius:2rem;border: 0rem solid red;width:0.4rem;float: left;text-align: center;background: #2484E8;color: #FFFFFF;border: 0rem;margin-top: 0.04rem;margin-left: 5%;}
-.fulfi h1{font-size: 0.24rem;width: 50%;float: left;font-size: 0.22rem;margin-top: 0.14rem;border: 0rem solid red;margin-left: 5%;}
-.fulfi button{border:none;background:#2484E8;border-radius:0;color: #FFFFFF;font-size: 0.22rem;width:100%;position: fixed;bottom: 0;left: 0;line-height: .6rem;}
-.img-shu{background: #FFFFFF;border: 0rem solid #ddd;}
-.img-shu img{margin-left:6%;border-top:0rem solid #FFFFFF;}
-.img-da img{border: 0rem solid red;height: 1.3rem;margin-left: 6%;float: left;}
-.img-da textarea{width: 80%;overflow: hidden;margin-left: 0.4rem;}
-.img-da{float: left;margin-top:0.08rem;width:100%;}
+* {
+	margin: 0;
+	padding: 0
+}
 
-.ful_img{width: 100%;overflow: hidden;height: 1.6rem;padding: 0.2rem;}
-.ful_img img{width: 15%;float: left;margin-left: 0.4rem;}
-.class_input{font-size: 0.22rem;}
-.ful_img input{width:70%;margin-left: 0.4rem;height: 0.7rem;overflow: hidden;}
-.ful_img span{color: #000000;overflow: hidden;background: 0rem;font-size:0.3rem;float: right;}
-.ful_img textarea{width: 80%;margin-left:0.4rem;}
-.but{text-align: center;margin-top: 0.2rem;}
-.but button{width: 95%;border-radius:2rem;background: #0062CC;color: #FFFFFF;height: 0.8rem;}
-/*取消订单*/
-.span_li{background: #FFFFFF;padding: 0.1rem;font-size: 0.24rem;}
-.cancel{border: 1px solid #f4f4f4;margin-top: 0.1rem;}
-.span_li p{margin-top: 0.1rem;color: #000000;}
-.span_li span{color: #00000;}
-/*提现明细*/
 
-.Detailed{width: 100%;padding:0.09rem ;background: #FFFFFF;}
-.Detailed{width: 100%;padding: 0.2rem;background: #FFFFFF;margin-top: 0.05rem;}
-.Detailed_span{padding: 0.08rem 0.2rem;font-size: 0.24rem;}
-.Deled_span{font-size: 0.24rem;}
-.Detai a{color: #000000;float: right;margin-left: 1rem;}
-#lisst{display: flex;justify-content: center;flex-wrap: wrap;}
- 
+.base {
+	background: #2484E8
+}
 
-/*开通会员渐变色*/ 
-.membership{background-image: linear-gradient(to top, #FFF,#007AFF);height:100%;padding: 0.1rem;}
-.mem{text-align: center;margin-top: 0.2rem;}
-.mem span{font-size: 0.36rem;color: #FFFFFF;margin-bottom: 1rem;}
-.mem img{height: 0.36rem;}
-.membeship{padding: 0.2rem 0.4rem;text-align: center;margin-top: 0.2rem;border-radius:0.08rem;}
-.ship{padding: 0.1rem;background: #FFFFFF;border-radius:0.08rem;}
-.ship a{font-size: 0.24rem;color: #000000;}
-.pan_Order{color: #FF0000;}
-/*收益明细*/
-.Profit{widows: 100%;text-align: center;overflow: hidden;background: #FFFFFF;}
-.ProProfit-One{width: 33.33%;float: left;margin-top: 0.5rem;}
-.ProProfit-One p{color: #FF0000;}
-/*收益明细*/
-.Profit_one{margin-top: 0.1rem;padding: 0.1rem;widows: 100%;overflow:hidden;text-align: center;background: #FFFFFF;}
-.Detai_one{width: 32.8%;float: left;padding:10px;border-radius:5px;text-align: -webkit-center;}
-.Det{margin-top: 0.2rem;border-bottom:0.06rem solid red;width: 0.8rem;}
-/*.余额转押金*/
-.Reliev{margin-top: 0.4rem;background: #FFFFFF;}
-.Reliev a{margin: 0.3rem;}
-.Reliev_div{text-align:center;margin-top: 1rem;font-size:0.3rem;}
-/*订单详情*/ 
-.details_div{padding: 0.2rem;}
-.details{padding: 22px;background: #FFFFFF;overflow: hidden;margin-top: 0.03rem;}
-.details_a{width:1.2rem;float: left;}
-.details_a a{color: #000000;font-size:0.24rem;}
-.details_textarea{width: 80%;float: left;}
-.details_textarea textarea{font-size: 0.24rem;;margin: 0.1rem;}
-.details_textarea img{width: 1rem;height: 1rem;margin: 0.03rem;}
+.base a {
+	color: #FFFFFF!important
+}
 
- /*接受或拒绝订单*/
-.botto1{margin-top: 0.2rem; display: flex;justify-content: space-around;}
-.botto1 .bu1{margin-left: 0.15rem; background-color: #90929F;color: white;}
-.botto1 .bu{margin-left: 0.15rem; background-color:#2484E8; color: white;}
-/*.bu{width: 160px;height: 46px; font-size: 17px; border-top-left-radius:1rem}*/
-.bu{border: 0.02rem solid white; width: 3.2rem; height: 0.92rem; text-align: center;border-radius: 0.46rem 0.46rem 0.46rem 0.46rem; line-height: 0.92rem;}
-.bu1{border: 0.02rem solid white; width: 3.2rem; height: 0.92rem; text-align: center;border-radius: 0.46rem 0.46rem 0.46rem 0.46rem; line-height: 0.92rem;}
+.base h1 {
+	color: #FFFFFF!important
+}
 
+.base h1 a {
+	color: #FFFFFF
+}
+
+.base span {
+	color: #FFFFFF;
+	margin-top: 0.22rem;
+	font-size: 0.24rem
+}
+
+.img img {
+	height: 2.4rem;
+	width: 100%;
+	margin-top: 1px;
+	text-align: center
+}
+
+.img {
+	position: fixed
+}
+
+.a_class,
+.img {
+	text-align: center
+}
+
+.a_class {
+	position: relative;
+	background-color: rgba(0, 0, 0, 0.3);
+	color: #FFFFFF;
+	height: 0.5rem;
+	width: 90%;
+	border-radius: 0.4rem;
+	font-size: 0.24rem;
+	line-height: 0.5rem
+}
+
+.img {
+	height: 160px;
+	padding: 0 2px
+}
+
+.img_class {
+	text-align: center;
+	font-size: 0.2rem;
+	line-height: 50px
+}
+
+.img_class a {
+	font-size: 0.28rem;
+	height: 30px;
+	line-height: 30px
+}
+
+.mui-icon-videocam:before {
+	font-size: 0.36rem
+}
+
+.class {
+	margin-bottom: 1%;
+	width: 100%;
+	height: 50px;
+	background: #FFFFFF;
+	margin-top: 75px
+}
+
+.ri_income {
+	width: 50%;
+	height: 50px;
+	line-height: 2.8;
+	text-align: center
+}
+
+.ri_income span {
+	color: #000000;
+	font-size: 0.28rem
+}
+
+.ri_income a {
+	color: #FF0000
+}
+
+.ri_income h2 {
+	height: 5px
+}
+
+.class {
+	display: flex;
+	flex-flow: wrap;
+	height: 50px;
+	width: 100%;
+	height: 50px;
+	align-items: center;
+	background: #FFFFFF
+}
+
+.ri_inc {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	background: #FFFFFF;
+	margin-bottom: 0.1rem
+}
+
+.ri_inc a {
+	padding: 0.2rem;
+	width: 100%;
+	color: #007AFF;
+	margin-left: 1.7rem
+}
+
+.sy_class {
+	border-bottom: 3px solid
+}
+
+.img_classs {
+	text-align: center
+}
+
+.img_classs img {
+	width: 100px;
+	border-radius: 100px;
+	margin-top: 50px
+}
+
+.isplay {
+	display: none
+}
+
+.splay {
+	display: block
+}
+
+.Boun span {
+	text-align: center;
+	margin-top: 10px
+}
+
+.ri_inc h5 {
+	background: #0062CC;
+	border-radius: 0.rem;
+	height: 0.01rem;
+	width: 20%;
+	margin-left: 40%
+}
+
+.lie_bie {
+	margin-bottom: 0.2rem;
+	height: 2.8rem;
+	padding: 0.2rem;
+	background: #FFFFFF;
+	display: flex;
+	flex-flow: wrap
+}
+
+.div_li {
+	width: 50%;
+	height: 0.4rem;
+	font-size: 0.24rem
+}
+
+.div_lr {
+	width: 50%;
+	font-size: 0.24rem;
+	text-align: right
+}
+
+.div_li a {
+	color: #000000
+}
+
+.div_lr a {
+	color: #000000
+}
+
+.buoot {
+	clear: both;
+	text-align: right;
+	margin-top: 2%
+}
+
+.buoot button {
+	background: #2484E8;
+	color: #FFFFFF;
+	border: 0 solid #ccc;
+	border-radius: 0.32rem
+}
+
+.tiao_tiao {
+	height: 0.02rem;
+	background: #B6B6B6;
+	margin-top: 0.24rem
+}
+
+.sy_er {
+	border-bottom: 1px solid red
+}
+
+.class_Head {
+	width: 100%;
+	height: 2.6rem;
+	text-align: center;
+	margin-top: 0;
+	background: #2484E8
+}
+
+.img_Head {
+	width: 25%;
+	float: left
+}
+
+.a_Head {
+	width: 40%;
+	float: left
+}
+
+.tication {
+	width: 25%;
+	float: left;
+	border: 0
+}
+
+.img_Head img {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 8%;
+	margin-top: 0.7rem
+}
+
+.a_Head {
+	width: 50%;
+	height: 1.4rem;
+	margin-top: 0.8rem
+}
+
+.a_Head-One {
+	width: 100%;
+	width: 100%;
+	overflow: hidden
+}
+
+.a_Head-One img {
+	width: 20px
+}
+
+.a_Head-Two {
+	font-size: 0.24rem
+}
+
+.a_Head-Two span {
+	float: left
+}
+
+.a_Head span {
+	font-size: 0.24rem;
+	float: left;
+	color: #FFFFFF
+}
+
+.tication {
+	margin-top: 1rem
+}
+
+.tication a {
+	background: #FFFFFF;
+	color: #000000;
+	padding: 0.2rem 0.3rem;
+	border-radius: 0.1rem;
+	font-size: 0.22rem
+}
+
+.ul_li {
+	margin-top: 0.4rem
+}
+
+.mui-table-view:before {
+	height: 0
+}
+
+.ul_li ul li img {
+	width: 0.4rem
+}
+
+.ul_li ul li a {
+	font-size: 0.24rem
+}
+
+.mui-table-view-cell {
+	width: 100%
+}
+
+.mui-table-view-cell img {
+	width: 10%;
+	float: left;
+	margin-right: 0.18rem
+}
+
+.mui-table-view-cell a {
+	width: 90%;
+	float: left;
+	margin-right: 0.3rem
+}
+
+.span {
+	margin-right: -0.2rem
+}
+
+.mui-table-view:after {
+	height: 0.02rem
+}
+
+.mui-bar-nav {
+	top: 0;
+	-webkit-box-shadow: 0 0.02rem 0.12rem #ccc;
+	box-shadow: 0 0 0 0
+}
+
+.h1_class {
+	padding: 0.2rem
+}
+
+.h1_class span {
+	font-size: 0.24rem;
+	margin-top: 0.5rem
+}
+
+.h1_class p {
+	color: #000000
+}
+
+.class_img {
+	text-align: center
+}
+
+.img {
+	widows: 4rem;
+	height: 2.5rem
+}
+
+.diz p {
+	text-align: center;
+	color: #00000
+}
+
+.top {
+	padding-top: 0.6rem!important;
+	background: #FFFFFF
+}
+
+.top_li a {
+	width: 45%;
+	font-size: 0.24rem;
+	float: left
+}
+
+.top a {
+	padding: 0.32rem
+}
+
+.top_li span {
+	font-size: 0.24rem
+}
+
+.img_san {
+	text-align: center;
+	margin-top: 0.1rem
+}
+
+.wallet_span {
+	font-size: 0.24rem
+}
+
+.wallet {
+	text-align: center;
+	height: 2rem;
+	background: #FFFFFF
+}
+
+.wallet-One {
+	width: 50%;
+	height: 2rem;
+	float: right;
+	padding: 0.02rem;
+	line-height: 1rem
+}
+
+.wallet-Two {
+	width: 50%;
+	height: 2rem;
+	float: right;
+	padding: 0.02rem;
+	line-height: 1rem
+}
+
+.wallet div h1 {
+	font-size: 0.28rem;
+	color: #FF0000;
+	margin-top: 0.1rem
+}
+
+.wallet div a {
+	color: #000000
+}
+
+.wallet-ul {
+	margin-top: 0.1rem
+}
+
+.wallet-li {
+	width: 100%;
+	overflow: hidden;
+	padding: 0.22rem 0.3rem;
+	color: #000000;
+	border-bottom: 1px solid #f4f4f4
+}
+
+.wallet-li a {
+	color: #000000;
+	height: 0.04rem
+}
+
+.mui-bar-nav.mui-bar .mui-icon {
+	margin-right: -0.2rem;
+	margin-left: -0.2rem;
+	padding-right: 0.2rem;
+	padding-left: 0.2rem;
+	margin-top: 0.02rem
+}
+
+.bangding-div div label {
+	font-size: 0.24rem
+}
+
+.bangding-div div input {
+	font-size: 0.24rem
+}
+
+.bangding a {
+	color: #000000;
+	line-height: 0.7rem
+}
+
+.bangding label {
+	font-size: 0.28rem;
+	width: 35%
+}
+
+.bangding input {
+	width: 65%;
+	font-size: 0.28rem
+}
+
+#inpu {
+	width: 65%!important;
+	font-size: 0.28rem
+}
+
+#inpui {
+	width: 100%!important;
+	font-size: 0.28rem
+}
+
+.mui-input-group .mui-input-row:after {
+	height: 0
+}
+
+.mui-input-group:after {
+	height: 0
+}
+
+.buoo {
+	margin-top: 1rem;
+	background: #2484E8;
+	height: 1rem;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	align-items: center
+}
+
+.buoo .Set_up {
+	color: #FFFFFF;
+	border: 0;
+	flex: 1;
+	border-radius: 0;
+	text-align: center;
+	font-size: 0.22rem;
+	height: 0.25rem;
+	line-height: 0.25rem
+}
+
+.buoo .Set_up:first-of-type {
+	border-right: 1px solid #FFFFFF
+}
+
+.bin-img_img {
+	text-align: center;
+	background: #EEEEEE
+}
+
+.bin-img_img img {
+	width: 1.6rem;
+	height: 1.6rem;
+	border-radius: 2rem;
+	margin-top: 0.4rem
+}
+
+.Recharge {
+	margin-top: 0.4rem;
+	padding: 0.2rem;
+	background: #FFFFFF
+}
+
+.Recharge a {
+	color: #04271D;
+	margin: 0.3rem
+}
+
+.Recharge h1 {
+	color: #04271D;
+	font-size: 0.72rem;
+	margin-top: 0.1rem
+}
+
+#Recharge-div {
+	padding: 0.2rem;
+	background: #FFFFFF;
+	font-size: 0.24rem;
+	margin-top: 0.02rem;
+	height: 2rem
+}
+
+#Recharge-div img {
+	height: 0.6rem;
+	width: 0.6rem;
+	margin-left: 0.5rem
+}
+
+.pay1 {
+	margin-bottom: 0
+}
+
+.Recharge input {
+	margin-bottom: 0
+}
+
+.Recharge a {
+	color: #2484E8
+}
+
+.Recharge-img {
+	margin-top: 0.2rem;
+	display: flex
+}
+
+.Put {
+	background: #FFFFFF;
+	padding: 0.2rem;
+	height: 2.6rem
+}
+
+.Put h1 {
+	height: 1rem
+}
+
+.Put a {
+	top: 0.1rem;
+	color: #000000
+}
+
+.Put-a {
+	background: #FFFFFF;
+	margin-top: 0.02rem;
+	height: 0.9rem;
+	line-height: 0.5rem;
+	font-size: 0.28rem;
+	padding: 0.2rem 0.4rem;
+	color: #000000
+}
+
+.Put-a a {
+	color: #000000
+}
+
+.Put-a a input {
+	border: 0;
+	color: #D8D8D8;
+	float: right
+}
+
+.a-Put a {
+	font-size: 0.22rem;
+	color: #000000;
+	padding: 0.2rem
+}
+
+.Put-h1 {
+	text-align: center;
+	margin-top: 1rem
+}
+
+.Put-h1 span {
+	font-size: 0.24rem
+}
+
+.Put input {
+	padding: 0;
+	border-bottom: 0.02rem;
+	border: 0
+}
+
+.tion a {
+	font-size: 0.24rem;
+	color: #000000;
+	margin: 0.2rem;
+	display: block
+}
+
+.div-div {
+	width: 100%;
+	background: #FFFFFF;
+	padding: 0.4rem
+}
+
+.tion-img {
+	background: #DDDDDD;
+	height: 3rem
+}
+
+.tion-img h1 {
+	font-size: 0.24rem
+}
+
+.img_ti img {
+	height: 1.6rem;
+	margin-top: 0.3rem
+}
+
+.tion-img {
+	margin-top: 0.1rem
+}
+
+.btn {
+	text-align: center;
+	margin-top: 0.5rem
+}
+
+.btn button {
+	height: 0.9rem;
+	width: 95%;
+	background: #0062CC!important;
+	color: #FFFFFF;
+	border-radius: 2rem;
+	border: 0
+}
+
+.div-div {
+	width: 100%;
+	text-align: center
+}
+
+.cell label {
+	font-size: 12px
+}
+
+.cell input {
+	font-size: 12px
+}
+
+.cell img {
+	width: 45px;
+	height: 45px;
+	float: right;
+	margin-left: 0.2rem;
+	border-radius: 0.2rem
+}
+
+.cell label {
+	width: 20%;
+	line-height: 45px;
+	float: left
+}
+
+.cell input {
+	width: 80%;
+	float: left;
+	margin: 0;
+	border: 0;
+	text-align: right
+}
+
+.register {
+	height: 1.3rem;
+	width: 100%;
+	background: #FFFFFF;
+	overflow: hidden;
+	padding: 0.2rem;
+	margin-top: 0.02rem;
+	display: flex;
+	align-items: center;
+	justify-content: center
+}
+
+.register #doCompare,
+.register #mobile {
+	height: 0.5rem;
+	margin-top: 0.14rem;
+	width: 100%;
+	border: 0;
+	font-size: 0.24rem;
+	color: #D8D8D8
+}
+
+.register1 {
+	height: 1.3rem;
+	width: 100%;
+	background: #FFFFFF;
+	overflow: hidden;
+	padding: 0.2rem;
+	margin-top: 0.02rem
+}
+
+.register {
+	display: flex;
+	align-content: center;
+	justify-content: space-between
+}
+
+.register #btn {
+	width: 2.4rem;
+	height: 0.6rem;
+	margin: 0.1rem;
+	top: 0.1rem
+}
+
+.register div {
+	height: 0.5rem;
+	margin-top: 0.14rem;
+	width: 20%;
+	float: right;
+	border: 0.02rem solid #BBBBBB;
+	text-align: center;
+	font-size: 0.22rem;
+	line-height: -0.02rem
+}
+
+.register-buoot {
+	text-align: center;
+	margin-top: 0.9rem
+}
+
+.register-buoot button {
+	width: 95%;
+	height: 0.9rem;
+	background: #2484E8;
+	color: #FFFFFF;
+	border: 0
+}
+
+.register_Agreement {
+	overflow: hidden;
+	width: 95%;
+	margin-left: 0.16rem;
+	margin-top: 0.2rem
+}
+
+.register_Agreement span {
+	font-size: 0.2rem;
+	text-align: center;
+	float: left
+}
+
+.register input {
+	font-size: 0.24rem;
+	border: 0;
+	margin: 0
+}
+
+.register #pass {
+	font-size: 0.24rem;
+	border: 0;
+	width: 60%
+}
+
+.myorder {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #f4f4f4;
+	font-size: 0.22rem
+}
+
+.ri_come a {
+	width: 33.33%;
+	margin: 0.03rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%
+}
+
+.me-active-a {
+	border-bottom: 1px solid #2484E8;
+	color: #2484E8
+}
+
+.mui-table-view {
+	background: #f5f5f5
+}
+
+.ri_come {
+	background: #FFFFFF;
+	align-items: center;
+	height: 1.2rem;
+	border-bottom: 1px solid #f4f4f4
+}
+
+.Order_ca {
+	background: #FFFFFF;
+	padding: 0.02rem;
+	border-bottom: 1px solid #f4f4f4;
+	overflow: hidden
+}
+
+.Order_span {
+	font-size: 0.24rem;
+	margin: 0.1rem 0;
+	padding: 0.04rem 0.4rem;
+	display: flex;
+}
+.Order_span span:first-of-type {width: 2rem;}
+.Order_span span:last-of-type{text-align: right;flex: 1;}
+.Order_daoh {
+	border: 0.01rem solid #DDDDDD;
+	padding: 0.2rem;
+	background: #FFFFFF
+}
+
+.Ord a,
+.Ord button {
+	border: 0.02rem solid #2484E8;
+	font-size: 0.22rem;
+	border-radius: 1rem;
+	display: inline-block;
+	padding: 0.1rem 0.2rem;
+	margin: 0 0.1rem
+}
+
+.Ord {
+	border-top: 0.01rem solid #DDDDDD;
+	padding: 0.2rem;
+	background: #FFFFFF;
+	border-top: 0.02rem solid #DDDDDD
+}
+
+.fulfi {
+	width: 100%;
+	overflow: hidden;
+	padding: 0.2rem;
+	background: #FFFFFF;
+	margin-top: 0.2rem;
+	border-bottom: 0
+}
+
+.fulfi a {
+	font-size: 0.22rem;
+	border-radius: 2rem;
+	border: 0 solid red;
+	width: 0.4rem;
+	float: left;
+	text-align: center;
+	background: #2484E8;
+	color: #FFFFFF;
+	border: 0;
+	margin-top: 0.04rem;
+	margin-left: 5%
+}
+
+.fulfi h1 {
+	font-size: 0.24rem;
+	width: 50%;
+	float: left;
+	font-size: 0.22rem;
+	margin-top: 0.14rem;
+	border: 0 solid red;
+	margin-left: 5%
+}
+
+.fulfi button {
+	border: none;
+	background: #2484E8;
+	border-radius: 0;
+	color: #FFFFFF;
+	font-size: 0.22rem;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	line-height: 0.6rem
+}
+
+.img-shu {
+	background: #FFFFFF;
+	border: 0 solid #ddd
+}
+
+.img-shu img {
+	margin-left: 6%;
+	border-top: 0 solid #FFFFFF
+}
+
+.img-da img {
+	border: 0 solid red;
+	height: 1.3rem;
+	margin-left: 6%;
+	float: left
+}
+
+.img-da textarea {
+	width: 80%;
+	overflow: hidden;
+	margin-left: 0.4rem
+}
+
+.img-da {
+	float: left;
+	margin-top: 0.08rem;
+	width: 100%
+}
+
+.ful_img {
+	width: 100%;
+	overflow: hidden;
+	height: 1.6rem;
+	padding: 0.2rem
+}
+
+.ful_img img {
+	width: 15%;
+	float: left;
+	margin-left: 0.4rem
+}
+
+.class_input {
+	font-size: 0.22rem
+}
+
+.ful_img input {
+	width: 70%;
+	margin-left: 0.4rem;
+	height: 0.7rem;
+	overflow: hidden
+}
+
+.ful_img span {
+	color: #000000;
+	overflow: hidden;
+	background: 0;
+	font-size: 0.3rem;
+	float: right
+}
+
+.ful_img textarea {
+	width: 80%;
+	margin-left: 0.4rem
+}
+
+.but {
+	text-align: center;
+	margin-top: 0.2rem
+}
+
+.but button {
+	width: 95%;
+	border-radius: 2rem;
+	background: #0062CC;
+	color: #FFFFFF;
+	height: 0.8rem
+}
+
+.span_li {
+	background: #FFFFFF;
+	padding: 0.1rem;
+	font-size: 0.24rem
+}
+
+.cancel {
+	border: 1px solid #f4f4f4;
+	margin-top: 0.1rem
+}
+
+.span_li p {
+	margin-top: 0.1rem;
+	color: #000000
+}
+
+.span_li span {
+	color: #00000
+}
+
+.Detailed {
+	width: 100%;
+	padding: 0.09rem;
+	background: #FFFFFF
+}
+
+.Detailed {
+	width: 100%;
+	padding: 0.2rem;
+	background: #FFFFFF;
+	margin-top: 0.05rem
+}
+
+.Detailed_span {
+	padding: 0.08rem 0.2rem;
+	font-size: 0.24rem
+}
+
+.Deled_span {
+	font-size: 0.24rem
+}
+
+.Detai a {
+	color: #000000;
+	float: right;
+	margin-left: 1rem
+}
+
+#lisst {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap
+}
+
+.membership {
+	background-image: linear-gradient(to top, #FFF, #007AFF);
+	height: 100%;
+	padding: 0.1rem
+}
+
+.mem {
+	text-align: center;
+	margin-top: 0.2rem
+}
+
+.mem span {
+	font-size: 0.36rem;
+	color: #FFFFFF;
+	margin-bottom: 1rem
+}
+
+.mem img {
+	height: 0.36rem
+}
+
+.membeship {
+	padding: 0.2rem 0.4rem;
+	text-align: center;
+	margin-top: 0.2rem;
+	border-radius: 0.08rem
+}
+
+.ship {
+	padding: 0.1rem;
+	background: #FFFFFF;
+	border-radius: 0.08rem
+}
+
+.ship a {
+	font-size: 0.24rem;
+	color: #000000
+}
+
+.pan_Order {
+	color: #FF0000
+}
+
+.Profit {
+	widows: 100%;
+	text-align: center;
+	overflow: hidden;
+	background: #FFFFFF
+}
+
+.ProProfit-One {
+	width: 33.33%;
+	float: left;
+	margin-top: 0.5rem
+}
+
+.ProProfit-One p {
+	color: #FF0000
+}
+
+.Profit_one {
+	margin-top: 0.1rem;
+	padding: 0.1rem;
+	widows: 100%;
+	overflow: hidden;
+	text-align: center;
+	background: #FFFFFF
+}
+
+.Detai_one {
+	width: 32.8%;
+	float: left;
+	padding: 10px;
+	border-radius: 5px;
+	text-align: -webkit-center
+}
+
+.Det {
+	margin-top: 0.2rem;
+	border-bottom: 0.06rem solid red;
+	width: 0.8rem
+}
+
+.Reliev {
+	margin-top: 0.4rem;
+	background: #FFFFFF
+}
+
+.Reliev a {
+	margin: 0.3rem
+}
+
+.Reliev_div {
+	text-align: center;
+	margin-top: 1rem;
+	font-size: 0.3rem
+}
+
+.details_div {
+	padding: 0.2rem
+}
+
+.details {
+	padding: 22px;
+	background: #FFFFFF;
+	overflow: hidden;
+	margin-top: 0.03rem
+}
+
+.details_a {
+	width: 1.2rem;
+	float: left
+}
+
+.details_a a {
+	color: #000000;
+	font-size: 0.24rem
+}
+
+.details_textarea {
+	width: 80%;
+	float: left
+}
+
+.details_textarea textarea {
+	font-size: 0.24rem;
+	margin: 0.1rem
+}
+
+.details_textarea img {
+	width: 1rem;
+	height: 1rem;
+	margin: 0.03rem
+}
+
+.botto1 {
+	margin-top: 0.2rem;
+	display: flex;
+	justify-content: space-around
+}
+
+.botto1 .bu1 {
+	margin-left: 0.15rem;
+	background-color: #90929F;
+	color: white
+}
+
+.botto1 .bu {
+	margin-left: 0.15rem;
+	background-color: #2484E8;
+	color: white
+}
+
+.bu {
+	border: 0.02rem solid white;
+	width: 3.2rem;
+	height: 0.92rem;
+	text-align: center;
+	border-radius: 0.46rem 0.46rem 0.46rem 0.46rem;
+	line-height: 0.92rem
+}
+
+.bu1 {
+	border: 0.02rem solid white;
+	width: 3.2rem;
+	height: 0.92rem;
+	text-align: center;
+	border-radius: 0.46rem 0.46rem 0.46rem 0.46rem;
+	line-height: 0.92rem
+}
+
+.circle {
+	width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    left: 0.2rem;
+    border: 1px solid red;
+    line-height: .3rem;
+    text-align: center;
+    color: red;
+    font-size: .2rem;
+}

@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -10,27 +9,20 @@
 		<link rel="stylesheet" href="css/base.css" />
 		<script type="text/javascript" src="js/rem.js"></script>
 	</head>
-
 	<body>
 		<header class="mui-bar mui-bar-nav base">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">完成订单</h1>
 			<span class="mui-pull-right" onclick="go02()" id="quxiao">取消订单</span>
-			<!--<span class="mui-pull-right" id="xiugai" onclick="xiugai()">修改价格</span>-->
+			<span class="mui-pull-right" id="xiugai" onclick="xiugai()">修改价格</span>
 		</header>
-
 		<div class="mui-content">
-
 			<div class="Order_ca">
-
 			</div>
 			<div class="fulfi">
-
 			</div>
 		</div>
-
 		<div class="but">
-
 		</div>
 		<script type="text/javascript" src="js/dui.js"></script>
 		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
@@ -51,8 +43,8 @@
 			}
 
 			function xiugai() {
-				var price = prompt('请输入价格！')
-				if(price == '' || price == 0) {
+				var price = Math.abs(parseInt(prompt('请输入价格！')))
+				if(price == '' || price <10) {
 					alert('请输入正确的价格')
 					return
 				}
@@ -63,10 +55,10 @@
 					dataType: 'json',
 					data: {
 						orderId: localStorage.getItem('orderid'),
-						prices: price
+						prices: Math.abs(parseInt(price)),
+						userId: localStorage.getItem('data_id')
 					},
 					success: function(res) {
-						console.log(JSON.stringify(res))
 						if(res.code == 200) {
 							plus.nativeUI.toast('修改成功!')
 						} else {
@@ -139,10 +131,10 @@
 								</block>
 								<block style="display:${data.data.pb_order_details_state==3?'block':'none'}">
 									<a>4</a>
-									<h1 style="width: 80%;">订单费用：</h1>
+									<h1 style="width: 80%;">请输入实际订单费用(最小10元)：</h1>
 									<div class="ful_img">
 										<img style="width:10px; height: 1.3rem;margin-left: 3.5%;" src="img/da.png" />
-										<input type="number" class="class_input" placeholder="请师傅输入订单价格(元)" id='FillInCost'/>
+										<input type="number" class="class_input" placeholder="请师傅输入订单价格(元)" id='FillInCost' min="10"/>
 									</div>
 								</block>
 								<block style="display:${data.data.pb_order_details_state==4?'block':'none'}">
@@ -205,10 +197,12 @@
 					success: function(res) {
 						if(res.status == 'ok') {
 							myajax()
+						} else {
+							alert('请求失败！请联系管理员')
 						}
 					},
 					error: function(err) {
-						alert(JSON.stringify(datajson))
+						alert('请求失败！请联系管理员')
 					}
 				});
 			}
@@ -229,16 +223,22 @@
 							if(res.status == 'ok') {
 								plus.webview.getWebviewById('Order').reload()
 								plus.nativeUI.toast('支付成功 ')
-								$('button').hide()
+								var order=plus.webview.getWebviewById('Order')
+								mui.fire(order,'haveOrder',{})
+								mui.back()							
 							} else if(res.status == 'lowMoney') {
+								var order=plus.webview.getWebviewById('Order')
+								mui.fire(order,'haveOrder',{})
 								plus.nativeUI.toast('资金不足 ')
 								mui.openWindow({
 									url: './Recharge.html',
 									id: 'Recharge'
 								})
 								plus.nativeUI.closeWaiting()
+							} else if(res.code == 301) {
+								plus.nativeUI.toast('用户已取消 ')
 							} else {
-								plus.nativeUI.toast('其他错误 ')
+								plus.nativeUI.toast('操作失败,请稍后再试或联系管理员！ ')
 							}
 						},
 						error: function(err) {
@@ -249,31 +249,41 @@
 					if(type == 0) {
 						datajson = {
 							order_id: localStorage.getItem('orderid'),
-							order_state: 'SignIn'
+							order_state: 'SignIn',
+							userId: localStorage.getItem('data_id')
 						}
 					} else if(type == 1) {
 						datajson = {
 							order_id: localStorage.getItem('orderid'),
 							order_state: 'FillInBody',
-							infor: $('#mytext').val()
+							infor: $('#mytext').val(),
+							userId: localStorage.getItem('data_id')
 						}
 					} else if(type == 2) {
 						datajson = {
 							order_id: localStorage.getItem('orderid'),
 							order_state: 'UploadPhoto',
-							infor: JSON.stringify(imglist)
+							infor: JSON.stringify(imglist),
+							userId: localStorage.getItem('data_id')
 						}
 					} else if(type == 3) {
+						if($('#FillInCost').val()<10){
+							alert('金额最小为10元！')
+							return
+						}
+						$('#FillInCost').val(parseInt($('#FillInCost').val()))
 						datajson = {
 							order_id: localStorage.getItem('orderid'),
 							order_state: 'FillInCost',
-							infor: $('#FillInCost').val()
+							infor: $('#FillInCost').val(),
+							userId: localStorage.getItem('data_id')
 						}
 					} else if(type == 4) {
 						datajson = {
 							order_id: localStorage.getItem('orderid'),
 							order_state: 'Remark',
-							infor: $('#Remark').val()
+							infor: $('#Remark').val(),
+							userId: localStorage.getItem('data_id')
 						}
 					}
 
@@ -281,6 +291,7 @@
 						return false;
 						return
 					}
+					console.log(JSON.stringify(datajson))
 					$.ajax({
 						type: "post",
 						url: url_url + "/order/SetOrderDetailsState",
@@ -290,6 +301,8 @@
 						success: function(res) {
 							if(res.status == 'ok') {
 								myajax()
+							} else {
+								alert('接单失败！')
 							}
 						},
 						error: function(err) {

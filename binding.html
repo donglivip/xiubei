@@ -24,8 +24,12 @@
 		<div class="mui-content ">
 			<div class="mui-input-group bangding-div" id="bangding" style="display: block;">
 				<div class="mui-input-row">
+					<label>支付宝姓名</label>
+					<input id="xingming" type="text" class="mui-input-clear" placeholder="请输入支付宝姓名 ">
+				</div>
+				<div class="mui-input-row">
 					<label>支付宝账户</label>
-					<input id="zhanghu" type="number" class="mui-input-clear" placeholder="请输入支付宝账户 ">
+					<input id="zhanghu" type="text" class="mui-input-clear" placeholder="请输入支付宝账户 ">
 				</div>
 			</div>
 
@@ -44,11 +48,16 @@
 	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
 	<script type="text/javascript" src="js/dui.js "></script>
 	<script>
+		$('#zhanghu').val(localStorage.getItem('alipay'))
 		//确定绑定账户
 		$('#Unbound02').click(function() {
 			var tel = $('#zhanghu').val()
 			if(tel == "") {
 				alert("账户不能为空~！请重新填写!");
+				return;
+			}
+			if($('#xingming').val() == "") {
+				alert("姓名不能为空~！请重新填写!");
 				return;
 			}
 			$.ajax({
@@ -57,7 +66,8 @@
 				dataType: 'json',
 				data: {
 					'id': localStorage.getItem('data_id'),
-					'alipay': $('#zhanghu').val()
+					'alipay': $('#zhanghu').val(),
+					alipay_account_name:$('#xingming').val()
 				},
 				async: true,
 				success: function(data) {
@@ -65,12 +75,9 @@
 						alert("绑定失败!")
 						return;
 					} else if(data = 1) {
-						alert("绑定成功!")
-
+						plus.nativeUI.toast("绑定成功!")
 						localStorage.setItem("alipay", zhanghu.value);
-
-						alip();
-
+						mui.back()
 					}
 				},
 				error: function(data) {

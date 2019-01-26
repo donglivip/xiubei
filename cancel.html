@@ -46,9 +46,13 @@
 					},
 					success: function(res) {
 						if(res.status=='ok'){
-							plus.nativeUI.toast('订单已取消')
+							plus.nativeUI.toast('订单已取消！')
+							var order=plus.webview.getWebviewById('Order')
+							mui.fire(order,'haveOrder',{})
 							var index = plus.webview.getLaunchWebview()
 							index.show();
+						}else{
+							plus.nativeUI.toast('取消订单失败！')
 						}
 					},
 					error: function(err) {

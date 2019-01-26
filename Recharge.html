@@ -32,82 +32,87 @@
 		</header>
 		<div class="mui-content Recharge">
 			<a>充值金额</a>
-			<input type="number" name="pay" class="pay1" value="" placeholder="请输入充值金额" style="border: 0px;" />
+			<input type="number" name="pay" class="pay1" value="" placeholder="请输入充值金额" style="border: 0px;"  oninput="myinput()"/>
 		</div>
 		<div class="buoo">
-			<button id="butto" onclick="gopay()">支付宝</button>
-			<button id="butto" onclick="wpay()">微信</button>
+			<button id="butto" class="apay">支付宝</button>
+			<button id="butto" class="wpay">微信</button>
 		</div>
 		<script type="text/javascript" src="js/dui.js"></script>
 		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
 		<script>
-			function wpay() {
-				if($('.pay1').val()==''){
-					alert('金额不能为空')
-					return false
-				}
-				plus.payment.getChannels(function(channels) {
-					channel = channels
-					$.ajax({
-						type: "post",
-						url: localStorage.getItem('register_url') + "/Wxpay/Wxapp",
-						async: false,
-						data: {
-							id: localStorage.getItem("data_id"),
-							money: $('.pay1').val()*100,
-							title: '余额充值',
-							code:0
-						},
-						success: function(data) {
-							var res_str = data;
-							plus.payment.request(channels[1], res_str, yes, no);
-						},
-						error: function(error) {
-							console.log(JSON.stringify(error));
+			mui.plusReady(function() {
+				$(function() {
+					$('.apay').click(function() {
+						if($('.pay1').val() == '') {
+							alert('金额不能为空')
+							return false
 						}
-					});
-				}, function(e) {
-					alert('获取支付通道失败' + e.message);
-				});
-			}
-
-			function gopay() {
-				if($('.pay1').val()==''){
-					alert('金额不能为空')
-					return false
-				}
-				plus.payment.getChannels(function(channels) {
-					channel = channels
-					$.ajax({
-						type: "post",
-						url: localStorage.getItem('register_url') + "/recharge/Transaction",
-						async: false,
-						data: {
-							id: localStorage.getItem("data_id"),
-							total_amount: $('.pay1').val(),
-							subject: '余额充值'
-						},
-						success: function(data) {
-							var res_str = data;
-							plus.payment.request(channels[0], res_str, yes, no);
-						},
-						error: function(error) {
-							console.log(JSON.stringify(error));
+						plus.payment.getChannels(function(channels) {
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('register_url') + "/recharge/Transaction",
+								async: false,
+								data: {
+									id: localStorage.getItem("data_id"),
+									total_amount: $('.pay1').val(),
+									subject: '余额充值'
+								},
+								success: function(data) {
+									var res_str = data;
+									plus.payment.request(channels[0], res_str, yes, no);
+								},
+								error: function(error) {
+									console.log(JSON.stringify(error));
+								}
+							});
+						}, function(e) {
+							alert('获取支付通道失败' + e.message);
+						});
+					})
+					$('.wpay').click(function() {
+						if($('.pay1').val() == '') {
+							alert('金额不能为空')
+							return false
 						}
-					});
-				}, function(e) {
-					alert('获取支付通道失败' + e.message);
-				});
-			}
+						plus.payment.getChannels(function(channels) {
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('register_url') + "/Wxpay/Wxapp",
+								async: false,
+								data: {
+									id: localStorage.getItem("data_id"),
+									money: $('.pay1').val() * 100,
+									title: '余额充值',
+									code: 0
+								},
+								success: function(data) {
+									var res_str = data;
+									plus.payment.request(channels[1], res_str, yes, no);
+								},
+								error: function(error) {
+								}
+							});
 
-			function yes(data) {
-				mui.toast('支付成功!');
-				plus.webview.getWebviewById('wallet').reload()
-				mui.back()
-			}
+						}, function(e) {
+							alert('获取支付通道失败' + e.message);
+						});
+					})
 
-			function no(data) {
-				mui.toast('支付失败!');
+					function yes(data) {
+						mui.toast('支付成功!');
+						plus.webview.getWebviewById('wallet').reload()
+						mui.back()
+					}
+
+					function no(data) {
+						mui.toast('支付失败!');
+					}
+				})
+
+			})
+			function myinput(){
+				$('.pay1').val(Math.abs(parseInt($('.pay1').val())))
 			}
 		</script>
 

@@ -23,7 +23,7 @@
 
 			<div class="Put">
 				<a style="color: #007AFF;">请输入提现金额</a>
-				<input id="inpui" type="number" class="mui-input-clear" value="" placeholder="请输入提现金额" min="1">
+				<input id="inpui" type="number" class="mui-input-clear"  placeholder="请输入提现金额" min="1" oninput="myinput()">
 				<a style="" id="amount">0.00元</a>
 			</div>
 
@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="Put-h1">
-			<span>点击提现，即代表您已同意<a>《提现说明》</a></span>
+			<span>点击提现，即代表您已同意<span onclick="opennew()">《提现说明》</span></span>
 		</div>
 		<script type="text/javascript" src="js/mui.js"></script>
 		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
@@ -63,15 +63,14 @@
 			} else {
 				$('.bank').html(a);
 			}
-
 			//获取提现规则	
 			var shou = document.getElementsByClassName("shou");
-
 			var forward = document.getElementById("forward");
-
 			//手续费
 			show();
-
+			function myinput(){
+				$('#inpui').val(Math.abs(parseInt($('#inpui').val())))
+			}
 			function show() {
 				$.ajax({
 					type: "get",
@@ -84,7 +83,7 @@
 					success: function(data) {
 						shou[0].innerHTML = data.ma_withdrawal_rules_service_charge;
 						shou[1].innerHTML = data.ma_withdrawal_rules_service;
-						shou[2].innerHTML = data.ma_withdrawal_rules_open_select;
+						shou[2].innerHTML = 4;
 
 					}
 				});
@@ -108,53 +107,54 @@
 			} else {
 				$('#amount').html('可提现额:' + money + '元');
 			}
-
 			//提现
 			$('#butto').click(function() {
 				//获取输入的提现金额
-				var mone = $('#inpui').val();
-			
-
+				var mone = $('#inpui').val()
+				if(mone==''||mone==0){
+					alert('请输入正确的提现金额！')
+					return
+				}
+				if(localStorage.getItem("alipay")==''||localStorage.getItem("alipay")==undefined||localStorage.getItem("alipay")==null){
+					alert('请先绑定支付宝！')
+					return
+				}
 				$.ajax({
 					type: "post",
-					url: url_url+"/deposit/Add",
+					url: url_url+"/user/cash",
 					async: true,
 					dataType: "json",
 					data: {
-						userId: user_id,
+						id: user_id,
 						money: mone,
-						payTarget:0
+						remark:'提现'
 					},
 					success: function(data) {
-					
-						if(data.code == 1) {
-							
+						if(data.code == 200) {
 							alert("申请提现成功");
-							
 								mui.plusReady(function(){
-					            		
 					            	var wallet = plus.webview.getWebviewById('wallet');
 										mui.fire(wallet,'qianbao',{});
 										mui.back();
 								})
 							
-						} else if(data.code == -1) {
-							alert("当前余额不足");
-							return false;
-						} else if(data.code == -2) {
-							alert("您未绑定支付宝或微信");
-							return false;
-						}else if(data.code == -3){
-							alert("提现金额不能为0元");
-							return false;
-						} else {
-							alert("申请失败");
-							return false;
+						}else if(data.code == 301) {
+							alert("提现失败")
+						}else if(data.code == 303) {
+							alert("提现已达上限")
+						}else if(data.code == 302) {
+							alert("余额不足")
+						}else{
+							alert('提现失败')
 						}
+					},error:function(error){
+						alert('提现失败')
 					}
 				});
 			})
-
+			function opennew(){
+				dui.jump("fowrad-detail.html",'fowrad-detail')
+			}
 			//刷新缓存
 			//				localStorage.setItem("money",money)
 			//dui.jump("wallet.html",'wallet')

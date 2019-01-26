@@ -18,7 +18,7 @@
 	<body>
 		<header class="mui-bar mui-bar-nav base">
 			<h1 class="mui-title">师傅中心</h1>
-			<span class="mui-pull-right" id="Sign_in" onclick="opennew('membership')">开通会员</span>
+			<!--<span class="mui-pull-right" id="Sign_in" onclick="opennew('membership')">开通会员</span>-->
 		</header>
 	</body>
 	<div class="mui-content" style="background: #FFFFFF;">
@@ -43,7 +43,7 @@
 				<li class="mui-table-view-cell" onclick="opennew('share')">
 					<img src="img/share.png" />
 					<span>
-						分享赚钱（只有会员用户邀请才可以赚钱欧）
+						分享赚钱
 		     	    </span>
 				</li>
 				<li class="mui-table-view-cell" onclick="opennew('wallet')">
@@ -92,6 +92,8 @@
 	<script>
 		function plusReady() {
 			//更换头像和昵称
+			plus.nativeUI.showWaiting('头像加载中')
+			$('#avatar').attr('src', localStorage.getItem('register_url') + localStorage.getItem('img_name'))
 			var cell = document.getElementsByClassName("mui-table-view-cell")
 			if(localStorage.getItem("state") == 1) {
 				opennew('tication')
@@ -101,6 +103,9 @@
 			$('#name').html("昵称：" + localStorage.getItem('name'))
 			$('#phone').html("手机号码：" + localStorage.getItem('phone'))
 			$('#avatar').attr('src', localStorage.getItem('register_url') + localStorage.getItem('img_name'))
+			setTimeout(function(){
+				plus.nativeUI.closeWaiting()
+			},1000)
 
 		}
 		document.addEventListener("get_user", function() {

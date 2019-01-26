@@ -16,36 +16,56 @@
     "refer": [
       "register.html",
       "poss_word.html"
-    ]
+    ],
+    "resources": []
   },
   "My.html": {
     "refer": [
       "tication.html",
       "Set_up.html",
       "about.html",
-      "wallet.html"
-    ]
+      "wallet.html",
+      "Skill.html",
+      "share.html"
+    ],
+    "resources": []
   },
   "sy.html": {
     "refer": [
       "membership.html",
       "Order_details.html",
       "Sign_in.html"
+    ],
+    "resources": [
+      "css/mui.css"
     ]
   },
   "Order.html": {
     "refer": [
       "fulfillment_Order.html"
-    ]
+    ],
+    "resources": []
   },
   "wallet.html": {
     "refer": [
-      "Profit.html"
-    ]
+      "Profit.html",
+      "Recharge.html",
+      "Put_forward.html",
+      "binding.html"
+    ],
+    "resources": []
   },
   "fulfillment_Order.html": {
     "refer": [
-      "Order_details02.html"
+      "Order_details02.html",
+      "cancel.html",
+      "Recharge.html"
+    ],
+    "resources": []
+  },
+  "Put_forward.html": {
+    "refer": [
+      "fowrad-detail.html"
     ]
   }
 }

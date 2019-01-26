@@ -215,15 +215,12 @@
 			function tuichu() {
 				mui.plusReady(function() { //获得首页
 					localStorage.clear()
-					localStorage.setItem('register_url', 'http://www.taoge110.com')
+//					localStorage.setItem('register_url', 'http://www.taoge110.com')
+					localStorage.setItem('register_url', 'http://www.bmwnxg.com')
 					var iex = plus.webview.getLaunchWebview();
-
 					mui.fire(iex, 'tuichu', {});
-
 					mui.fire(iex, 'gohome', {});
-
 					iex.show('pop-in', 300);
-
 				});
 
 			};

@@ -35,21 +35,19 @@
 					<div class="tion-div">
 						<div class="tion-img">
 							<div class="img_ti">
-								<img src="img/44.png" />
+								<img src="img/44.png" img_img_img=''/>
 								<h1>拍摄身份证人脸面</h1>
 							</div>
 						</div>
 					</div>
-
 					<div class="tion-div">
 						<div class="tion-img">
 							<div class="img_ti">
-								<img src="img/44.png" />
+								<img src="img/44.png" img_img_img=''/>
 								<h1>拍摄身份证国徽面</h1>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 
@@ -65,27 +63,16 @@
 	<script type="text/javascript" src="js/dui.js"></script>
 	<script>
 		mui.init();
-
 		//获取正面身份证
-
 		var img = document.getElementsByTagName("img");
-
 		var url_url = localStorage.getItem("register_url");
-
 		var inpu = document.getElementsByClassName("mui-input-clear");
-
 		var btn = document.getElementById("btn");
-
 		var data_id = localStorage.getItem("data_id");
-
 		var state = localStorage.getItem("state");
-
 		var tion = document.getElementsByClassName("tion");
-
 		//认证判断
-
 		//上传图片上传身份证人脸面
-
 		img['0'].addEventListener("tap", function() {
 			zhaoxiangji('0')
 		});
@@ -93,7 +80,6 @@
 		img['1'].addEventListener("tap", function() {
 			zhaoxiangji('1')
 		});
-
 		function zhaoxiangji(num) {
 			var btnArray = [{
 				title: "照相机"
@@ -204,7 +190,6 @@
 						wt.close();
 					}
 				});
-
 			task.addData("client", "");
 			task.addData("uid", getUid());
 			for(var i = 0; i < files.length; i++) {
@@ -224,15 +209,23 @@
 		btnn.addEventListener("tap", function() {
 			var name = inpu[0].value;
 			var id_id = inpu[1].value;
-			if(!id_id == 18) {
-				alert("号码不对");
-				return;
+			if(name==''){
+				alert('请输入姓名！')
+				return
+			}
+			if(id_id==''){
+				alert('请输入身份证号！')
+				return
 			}
 			var id_zheng = img['0'].getAttribute('img_img_img');
 			var id_fan = img['1'].getAttribute('img_img_img');
+			if(id_zheng==''||id_fan==''){
+				alert('请上传身份证！')
+				return
+			}
 			$.ajax({
-				type: "get",
-				url: url_url + "/users/authentication",
+				type: "post",
+				url: url_url + "/user/approve",
 				dataType: 'json',
 				data: {
 					'id': data_id,
@@ -243,15 +236,8 @@
 				},
 				async: true,
 				success: function(data) {
-					console.log(JSON.stringify({
-					'id': data_id,
-					'name': name,
-					'card': id_id,
-					'positive': id_zheng,
-					'reverse': id_fan
-				}))
 					console.log(JSON.stringify(data))
-					if(data.code = 1) {
+					if(data.code == 200) {
 						plus.nativeUI.toast('提交成功');
 						localStorage.setItem("state", 2);
 						mui.back();
