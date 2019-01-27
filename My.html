@@ -120,11 +120,28 @@
 			$('#vipimg').hide()
 		}
 		function myopen() {
-			if(localStorage.getItem("state") == 1) {
-				opennew('tication')
-			} else {
-				plus.nativeUI.toast("已认证，不可以重复认证！")
-			}
+			$.ajax({
+				type: "post",
+				url:  localStorage.getItem("register_url") + "/user/place",
+				dataType: 'json',
+				async: true,
+				data:{
+					id:localStorage.getItem("data_id")
+				},
+				success: function(data) {
+					localStorage.setItem('us_user_state',data.data.us_user_state)
+					if(data.data.us_user_state == 2) {
+						plus.nativeUI.toast('您已完成实名认证！')
+					} else if(data.data.us_user_state==3) {
+						plus.nativeUI.toast('您的信息正在审核中！')
+					} else {
+						dui.jump("tication.html", "tication")
+					}
+				},
+				error:function(err){
+					console.log(JSON.stringify(err))
+				}
+			});
 		}
 		function opennew(id) {
 			var user_id = localStorage.getItem("data_id");

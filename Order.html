@@ -138,10 +138,9 @@
 		}
 
 		function gomap(lat, lng, name) {
-			$('iframe').attr('src', 'https://uri.amap.com/marker?position=' + lat + ',' + lng + '&name=' + name + '')
-			$('iframe').show()
-			$('#mya').show()
-			$('.mui-content').hide()
+			plus.geolocation.getCurrentPosition(function(p) {
+				plus.maps.openSysMap(new plus.maps.Point(lat,lng),name, new plus.maps.Point(p.coords.longitude, p.coords.latitude) );
+			})
 		}
 
 		function ihide() {

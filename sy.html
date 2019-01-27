@@ -575,7 +575,7 @@
 				setInterval(function() {
 					$.ajax({
 						type: "GET",
-						url: url_url + "/api/sms/isHaveNotLook",
+						url: url_url + "/api/sms/isHaveNotLook2",
 						dataType: 'json',
 						async: true,
 						data: {
@@ -588,11 +588,12 @@
 								audio.play();
 								$.ajax({
 									type: "GET",
-									url: url_url + "/api/sms/setOrderIsLook",
+									url: url_url + "/api/sms/setOrderIsLook2",
 									dataType: 'json',
 									async: true,
 									data: {
-										pb_order_number: data.data.orderNumber
+										pb_order_number: data.data.orderNumber,
+										userId:localStorage.getItem('data_id')
 									},
 									success: function(data) {
 
@@ -609,7 +610,7 @@
 							console.log(JSON.stringify(data));
 						}
 					});
-				}, 5000)
+				}, 30000)
 			</script>
 
 		</body>
