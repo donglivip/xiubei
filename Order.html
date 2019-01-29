@@ -88,6 +88,7 @@
 					getType: type
 				},
 				success: function(data) {
+					console.log(JSON.stringify(data))
 					$('#list').html('')
 					for(var i = 0; i < data.data.length; i++) {
 						$('#list').append(`

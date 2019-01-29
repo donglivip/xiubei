@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -23,9 +22,7 @@
 			overflow-y: scroll;
 		}
 	</style>
-
 	<body>
-
 		<body>
 			<!--<div id="myalert">
 				<img src="img/vip.png" width="55%" onclick="opennew('membership')"/>
@@ -101,7 +98,6 @@
 						id: 'membership'
 					})
 				})
-
 				function reset() {
 					complee()
 					myajax()
@@ -109,8 +105,8 @@
 						reset()
 					}, 30000)
 				}
-
 				function plusReady() {
+					
 					plus.geolocation.getCurrentPosition(function(p) {
 						$.ajax({
 							type: "GET",
@@ -155,6 +151,7 @@
 											$('#mycity').html(result.regeocode.addressComponent.city + ' ' + data.weather)
 										});
 									});
+									reset()
 								} else {
 									//获取地址失败
 									$('#mycity').html('定位失败')
@@ -311,6 +308,67 @@
 
 				function myajax() {
 					$('#test').html('')
+					if(localStorage.getItem("gong") == 1) {
+						plus.geolocation.getCurrentPosition(function(p) {
+							$.ajax({
+								type: "get",
+								url: url_url + "/api/user/coordinate",
+								dataType: 'json',
+								data: {
+									id: user_id,
+									us_user_x: p.coords.longitude,
+									us_user_y: p.coords.latitude
+								},
+								async: true,
+								success: function(data) {
+									console.log( p.coords.longitude)
+									Star.innerHTML = "马上停工";
+								},
+								error: function(data) {
+									console.log(JSON.stringify(data));
+								}
+							});
+						}, function(e) {
+							that.city = '获取失败'
+						});
+					}
+					$.ajax({
+						type: "GET",
+						url: url_url + "/api/sms/isHaveNotLook2",
+						dataType: 'json',
+						async: true,
+						data: {
+							userId: localStorage.getItem('data_id')
+						},
+						success: function(data) {
+							if(data.code == 1) {
+								var audio = document.getElementById("bgMusic");
+								//播放(继续播放)
+								audio.play();
+								$.ajax({
+									type: "GET",
+									url: url_url + "/api/sms/setOrderIsLook2",
+									dataType: 'json',
+									async: true,
+									data: {
+										pb_order_number: data.data.orderNumber,
+										userId: localStorage.getItem('data_id')
+									},
+									success: function(data) {
+
+									},
+									error: function(data) {
+
+									}
+								});
+								var info = plus.push.getClientInfo();
+								plus.push.createMessage('您有新的订单啦,请点击查看!');
+							}
+						},
+						error: function(data) {
+							console.log(JSON.stringify(data));
+						}
+					});
 					//					抢单
 					$.ajax({
 						type: "get",
@@ -571,46 +629,7 @@
 						$('.type02').show()
 					}
 				})
-				reset()
-				setInterval(function() {
-					$.ajax({
-						type: "GET",
-						url: url_url + "/api/sms/isHaveNotLook2",
-						dataType: 'json',
-						async: true,
-						data: {
-							userId: localStorage.getItem('data_id')
-						},
-						success: function(data) {
-							if(data.code == 1) {
-								var audio = document.getElementById("bgMusic");
-								//播放(继续播放)
-								audio.play();
-								$.ajax({
-									type: "GET",
-									url: url_url + "/api/sms/setOrderIsLook2",
-									dataType: 'json',
-									async: true,
-									data: {
-										pb_order_number: data.data.orderNumber,
-										userId:localStorage.getItem('data_id')
-									},
-									success: function(data) {
-
-									},
-									error: function(data) {
-
-									}
-								});
-								var info = plus.push.getClientInfo();
-								plus.push.createMessage('您有新的订单啦,请点击查看!');
-							}
-						},
-						error: function(data) {
-							console.log(JSON.stringify(data));
-						}
-					});
-				}, 30000)
+				
 			</script>
 
 		</body>

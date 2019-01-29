@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -9,6 +10,7 @@
 		<link rel="stylesheet" href="css/base.css" />
 		<script type="text/javascript" src="js/rem.js"></script>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav base">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
@@ -35,7 +37,11 @@
 				imglist = []
 
 			function go() {
-				dui.jump("Order_details02.html", "Order_details02");
+				mui.openWindow({
+					url: './Order_details02.html',
+					id: 'Order_details02',
+					createNew: true
+				})
 			}
 
 			function go02() {
@@ -44,7 +50,7 @@
 
 			function xiugai() {
 				var price = Math.abs(parseInt(prompt('请输入价格！')))
-				if(price == '' || price <10) {
+				if(price == '' || price < 10) {
 					alert('请输入正确的价格')
 					return
 				}
@@ -80,6 +86,7 @@
 						order_id: localStorage.getItem('orderid')
 					},
 					success: function(data) {
+						localStorage.setItem('ordernumber', data.data.pb_order_number)
 						$('.Order_ca').append(`	
 							<div class="Ord myorder" onclick='go()'>
 								<span style='margin-left:.1rem'>查看详情</span>
@@ -223,12 +230,12 @@
 							if(res.status == 'ok') {
 								plus.webview.getWebviewById('Order').reload()
 								plus.nativeUI.toast('支付成功 ')
-								var order=plus.webview.getWebviewById('Order')
-								mui.fire(order,'haveOrder',{})
-								mui.back()							
+								var order = plus.webview.getWebviewById('Order')
+								mui.fire(order, 'haveOrder', {})
+								mui.back()
 							} else if(res.status == 'lowMoney') {
-								var order=plus.webview.getWebviewById('Order')
-								mui.fire(order,'haveOrder',{})
+								var order = plus.webview.getWebviewById('Order')
+								mui.fire(order, 'haveOrder', {})
 								plus.nativeUI.toast('资金不足 ')
 								mui.openWindow({
 									url: './Recharge.html',
@@ -267,7 +274,7 @@
 							userId: localStorage.getItem('data_id')
 						}
 					} else if(type == 3) {
-						if($('#FillInCost').val()<10){
+						if($('#FillInCost').val() < 10) {
 							alert('金额最小为10元！')
 							return
 						}
