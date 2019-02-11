@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -22,14 +23,15 @@
 			overflow-y: scroll;
 		}
 	</style>
+
 	<body>
+
 		<body>
 			<!--<div id="myalert">
 				<img src="img/vip.png" width="55%" onclick="opennew('membership')"/>
 			</div>-->
 			<!--<div class="reset" onclick="reset()">刷新</div>-->
 			<header class="mui-bar mui-bar-nav base">
-				<a class="mui-btn mui-btn-link mui-pull-right" id="Start">马上开工</a>
 				<h1 class="mui-title">接单大厅</h1>
 				<h1 class="mui-btn mui-btn-link mui-pull-left"><block id='mycity'>定位中</block></h1>
 			</header>
@@ -80,7 +82,6 @@
 				mui.init()
 				var user_id = localStorage.getItem("data_id");
 				localStorage.setItem('register_url', 'http://www.bmwnxg.com')
-				var Star = document.getElementById("Start");
 				if(localStorage.getItem('ma_vip_id') != 'null') {
 					$('#myalert').hide()
 				}
@@ -98,6 +99,7 @@
 						id: 'membership'
 					})
 				})
+
 				function reset() {
 					complee()
 					myajax()
@@ -105,8 +107,9 @@
 						reset()
 					}, 30000)
 				}
+
 				function plusReady() {
-					
+
 					plus.geolocation.getCurrentPosition(function(p) {
 						$.ajax({
 							type: "GET",
@@ -119,13 +122,6 @@
 							success: function(data) {
 								if(data.code == 0) {
 									plus.nativeUI.toast('您还没有选择技能呢,去个人中心设置技能吧！')
-								} else {
-									if(localStorage.getItem("gong") == 0) {
-										Star.innerHTML = "马上开工";
-										plus.nativeUI.toast('您还没有开工呢，点击右上角开始工作吧！')
-									} else {
-										Star.innerHTML = "马上停工";
-									}
 								}
 							},
 							error: function(data) {
@@ -218,13 +214,6 @@
 				var url_url = localStorage.getItem("register_url");
 
 				function go(id) {
-					if(localStorage.getItem("gong") == 0) {
-						Star.innerHTML = "马上开工";
-						plus.nativeUI.toast('您还没有开工呢，点击右上角开始工作吧！')
-						return false;
-					} else {
-						Star.innerHTML = "马上停工";
-					}
 					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
 						mui.toast("请登录");
 						dui.jump('Sign_in.html', 'Sign_in');
@@ -308,30 +297,26 @@
 
 				function myajax() {
 					$('#test').html('')
-					if(localStorage.getItem("gong") == 1) {
-						plus.geolocation.getCurrentPosition(function(p) {
-							$.ajax({
-								type: "get",
-								url: url_url + "/api/user/coordinate",
-								dataType: 'json',
-								data: {
-									id: user_id,
-									us_user_x: p.coords.longitude,
-									us_user_y: p.coords.latitude
-								},
-								async: true,
-								success: function(data) {
-									console.log( p.coords.longitude)
-									Star.innerHTML = "马上停工";
-								},
-								error: function(data) {
-									console.log(JSON.stringify(data));
-								}
-							});
-						}, function(e) {
-							that.city = '获取失败'
+					plus.geolocation.getCurrentPosition(function(p) {
+						$.ajax({
+							type: "get",
+							url: url_url + "/api/user/coordinate",
+							dataType: 'json',
+							data: {
+								id: user_id,
+								us_user_x: p.coords.longitude,
+								us_user_y: p.coords.latitude
+							},
+							async: true,
+							success: function(data) {},
+							error: function(data) {
+								console.log(JSON.stringify(data));
+							}
 						});
-					}
+					}, function(e) {
+						plus.nativeUI.toast('定位失败，请检查网络和GPS后重试！')
+						that.city = '获取失败'
+					});
 					$.ajax({
 						type: "GET",
 						url: url_url + "/api/sms/isHaveNotLook2",
@@ -521,103 +506,6 @@
 
 					});
 				}
-				//开工停工
-				Star.addEventListener("tap", function() {
-					function plusReady() {
-						// 弹出系统等待对话框
-						plus.nativeUI.showWaiting()
-					}
-					if(window.plus) {
-						plusReady();
-					} else {
-						document.addEventListener("plusready", plusReady, false);
-					}
-					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
-						function plusReady() {
-							// 弹出系统等待对话框
-							plus.nativeUI.closeWaiting()
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
-						}
-						mui.toast("请登录");
-						dui.jump('Sign_in.html', 'Sign_in');
-						return;
-					}
-					if(localStorage.getItem("gong") == 1) {
-						//停止获取数据
-						$.ajax({
-							type: "get",
-							url: url_url + "/api/user/coordinate",
-							dataType: 'json',
-							data: {
-								id: user_id,
-								us_user_x: 0,
-								us_user_y: 0
-							},
-							async: true,
-							success: function(data) {
-								Star.innerHTML = "马上开工";
-								var music = new Audio();
-								music.src = "./img/close.wav";
-								music.play()
-								localStorage.setItem("gong", 0)
-
-								function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
-							},
-							error: function(data) {
-								console.log(JSON.stringify(data));
-							}
-						});
-					} else {
-						//请求数据
-						plus.geolocation.getCurrentPosition(function(p) {
-							$.ajax({
-								type: "get",
-								url: url_url + "/api/user/coordinate",
-								dataType: 'json',
-								data: {
-									id: user_id,
-									us_user_x: p.coords.longitude,
-									us_user_y: p.coords.latitude
-								},
-								async: true,
-								success: function(data) {
-									Star.innerHTML = "马上停工";
-									var music = new Audio();
-									music.src = "./img/open.wav";
-									music.play()
-									localStorage.setItem("gong", 1)
-
-									function plusReady() {
-										// 弹出系统等待对话框
-										plus.nativeUI.closeWaiting()
-									}
-									if(window.plus) {
-										plusReady();
-									} else {
-										document.addEventListener("plusready", plusReady, false);
-									}
-								},
-								error: function(data) {
-									console.log(JSON.stringify(data));
-								}
-							});
-						}, function(e) {
-							that.city = '获取失败'
-						});
-					}
-				})
 				$('.myclas').click(function() {
 					$('.myclas').removeClass('sy_class')
 					$(this).addClass('sy_class')
@@ -629,9 +517,6 @@
 						$('.type02').show()
 					}
 				})
-				
 			</script>
-
 		</body>
-
 </html>
