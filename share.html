@@ -13,7 +13,7 @@
 		.share{background: #F4F4F4;}
 		.share .help-item{justify-content: flex-start;background: #FFFFFF;}
 		.share .help-item img{width: .4rem;margin-left: .2rem;margin-right: .1rem;}
-		.share .share-top{height: 4rem;width: 100%;background: #FFFFFF;display: flex;align-items: center;justify-content: center;flex-direction: column;margin-bottom: .2rem;}
+		.share .share-top{height: 4rem;width: 100%;background: #FFFFFF;display: flex;align-items: center;justify-content: space-around;margin-bottom: .2rem;}
 		.share .share-top img,canvas{height: 2.5rem;margin: .2rem 0;}
 		.share .share-top p{font-size: .2rem;}
 		.help-item{display: flex;align-items: center;height: .8rem;border-bottom: 1px solid #F4F4F4;}
@@ -35,8 +35,14 @@
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="share-top">
-					<p>分享二维码立刻开始赚钱</p>
-					<div id="output"></div>
+					<div class="outbox">
+						<p>师傅端</p>
+						<div id="output"></div>
+					</div>
+					<div class="outbox">
+						<p>用户端</p>
+						<div id="output02"></div>
+					</div>	
 				</div>
 				<div class="help-item" onclick="sharew()">
 					<img src="img/wpay.png" />
@@ -53,9 +59,10 @@
 		<script src="js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			jQuery(function() {
-				jQuery('#output').qrcode(localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'));
-				console.log(localStorage.getItem('register_url')  + "/api/User/serve?rem="+localStorage.getItem('usShareCode'))
+				jQuery('#output').qrcode(localStorage.getItem('register_url')+"/api/User/serve?rem="+localStorage.getItem('usShareCode'));
+				jQuery('#output02').qrcode(localStorage.getItem('register_url')+"/api/User/consumer?rem="+localStorage.getItem('usShareCode'));
 			})
+			console.log(localStorage.getItem('register_url')+"/api/User/serve?rem="+localStorage.getItem('usShareCode'))
 			var shares = null,
 				sharewx = null,
 				shareqq=null

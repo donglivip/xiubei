@@ -1,121 +1,66 @@
-mui.init({
-	swipeBack: true //启用右滑关闭功能
-});
-var controls = document.getElementById("segmentedControls");
-var contents = document.getElementById("segmentedControlContents");
-var html = [];
-var i = 1,
-	j = 1,
-	m = 9, //左侧选项卡数量+1
-	n = 10; //每个选项卡列表数量+1
+"use strict";
+
 $.ajax({
 	type: "get",
 	url: localStorage.getItem('register_url') + "/setskill/Onelist",
 	async: true,
 	dataType: 'json',
-	success: function(res) {
-		for(i=0; i < res.data.length; i++) {
-			html.push('<a class="mui-control-item" data-index="' + (i) + '" href="#content' + i + '">' + res.data[i].pb_skill_type_one_title+ '</a>');
+	success: function success(res) {
+		for (var i = 0; i < res.data.length; i++) {
+			$('#segmentedControls').append("\n\t\t\t\t\t\t\t<div class=\"item\" onclick='havetwo(" + res.data[i].pb_skill_type_one_id + ")'>" + res.data[i].pb_skill_type_one_title + "</div>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t");
 		}
-		controls.innerHTML = html.join('');
+		havetwo(res.data[0].pb_skill_type_one_id);
 	},
-	error: function(err) {
-		alert(JSON.stringify(datajson))
+	error: function error(err) {
+		alert(JSON.stringify(datajson));
 	}
 });
-
-html = [];
-for(i = 1; i < m; i++) {
-	html.push('<div id="content' + i + '" class="mui-control-content"><ul class="mui-table-view">');
-	for(j = 1; j < n; j++) {
-		html.push('<li class="mui-table-view-cell">第' + i + '个选项卡子项-' + j + '</li>');
-	}
-	html.push('</ul></div>');
+function havetwo(id) {
+	$.ajax({
+		type: "get",
+		url: localStorage.getItem('register_url') + "/setskill/TwoList",
+		async: true,
+		data: {
+			one_id: id,
+			user_id: localStorage.getItem('data_id')
+		},
+		dataType: 'json',
+		success: function success(res) {
+			$('#segmentedControlContents').html('');
+			for (var i = 0; i < res.data.length; i++) {
+				$('#segmentedControlContents').append("\n\t\t\t\t\t\t\t\t<li class=\"mui-table-view-cell\" style='list-style-type:none;background: #FFFFFF;line-height:28px;' onclick=\"changestate('" + res.data[i].pb_skill_type_two_id + "','" + res.data[i].pb_skill_type_one_id + "')\">\n\t\t\t\t\t\t\t\t\t" + res.data[i].pb_skill_type_title + "\n\t\t\t\t\t\t\t\t\t<img src='./img/y.png' style=\"display:" + (res.data[i].checked == true ? 'block' : 'none') + "\"/>\n\t\t\t\t\t\t\t\t\t<img src='./img/n.png' style=\"display:" + (res.data[i].checked == true ? 'none' : 'block') + "\"/>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t");
+			}
+		},
+		error: function error(err) {
+			alert(JSON.stringify(datajson));
+		}
+	});
 }
-contents.innerHTML = html.join('');
-//默认选中第一个
-controls.querySelector('.mui-control-item').classList.add('mui-active');
-(function() {
-	var controlsElem = document.getElementById("segmentedControls");
-	var contentsElem = document.getElementById("segmentedControlContents");
-	var controlListElem = controlsElem.querySelectorAll('.mui-control-item');
-	var contentListElem = contentsElem.querySelectorAll('.mui-control-content');
-	var controlWrapperElem = controlsElem.parentNode;
-	var controlWrapperHeight = controlWrapperElem.offsetHeight;
-	var controlMaxScroll = controlWrapperElem.scrollHeight - controlWrapperHeight; //左侧类别最大可滚动高度
-	var maxScroll = contentsElem.scrollHeight - contentsElem.offsetHeight; //右侧内容最大可滚动高度
-	var controlHeight = controlListElem[0].offsetHeight; //左侧类别每一项的高度
-	var controlTops = []; //存储control的scrollTop值
-	var contentTops = [0]; //存储content的scrollTop值
-	var length = contentListElem.length;
-	for(var i = 0; i < length; i++) {
-		controlTops.push(controlListElem[i].offsetTop + controlHeight);
-	}
-	for(var i = 1; i < length; i++) {
-		var offsetTop = contentListElem[i].offsetTop;
-		if(offsetTop + 100 >= maxScroll) {
-			var height = Math.max(offsetTop + 100 - maxScroll, 100);
-			var totalHeight = 0;
-			var heights = [];
-			for(var j = i; j < length; j++) {
-				var offsetHeight = contentListElem[j].offsetHeight;
-				totalHeight += offsetHeight;
-				heights.push(totalHeight);
-			}
-			for(var m = 0, len = heights.length; m < len; m++) {
-				contentTops.push(parseInt(maxScroll - (height - heights[m] / totalHeight * height)));
-			}
-			break;
-		} else {
-			contentTops.push(parseInt(offsetTop));
-		}
-	}
-	contentsElem.addEventListener('scroll', function() {
-		var scrollTop = contentsElem.scrollTop;
-		for(var i = 0; i < length; i++) {
-			var offsetTop = contentTops[i];
-			var offset = Math.abs(offsetTop - scrollTop);
-			//						console.log("i:"+i+",scrollTop:"+scrollTop+",offsetTop:"+offsetTop+",offset:"+offset);
-			if(scrollTop < offsetTop) {
-				if(scrollTop >= maxScroll) {
-					onScroll(length - 1);
-				} else {
-					onScroll(i - 1);
-				}
-				break;
-			} else if(offset < 20) {
-				onScroll(i);
-				break;
-			} else if(scrollTop >= maxScroll) {
-				onScroll(length - 1);
-				break;
-			}
+$('#back').click(function () {
+	dui.jump('My.html', 'My');
+});
+
+$('#skill').click(function () {
+	dui.jump('Setting_skills.html', 'Setting_skills');
+});
+function changestate(id, id02) {
+	$.ajax({
+		type: "post",
+		url: localStorage.getItem('register_url') + "/setskill/Set2",
+		async: true,
+		data: {
+			userId: localStorage.getItem('data_id'),
+			targetId: id
+		},
+		dataType: 'json',
+		success: function success(res) {
+			havetwo(id02);
+		},
+		error: function error(err) {
+			console.log(JSON.stringify(err));
 		}
 	});
-	var lastIndex = 0;
-	//监听content滚动
-	var onScroll = function(index) {
-		if(lastIndex !== index) {
-			lastIndex = index;
-			var lastActiveElem = controlsElem.querySelector('.mui-active');
-			lastActiveElem && (lastActiveElem.classList.remove('mui-active'));
-			var currentElem = controlsElem.querySelector('.mui-control-item:nth-child(' + (index + 1) + ')');
-			currentElem.classList.add('mui-active');
-			//简单处理左侧分类滚动，要么滚动到底，要么滚动到顶
-			var controlScrollTop = controlWrapperElem.scrollTop;
-			if(controlScrollTop + controlWrapperHeight < controlTops[index]) {
-				controlWrapperElem.scrollTop = controlMaxScroll;
-			} else if(controlScrollTop > controlTops[index] - controlHeight) {
-				controlWrapperElem.scrollTop = 0;
-			}
-		}
-	};
-	//滚动到指定content
-	var scrollTo = function(index) {
-		contentsElem.scrollTop = contentTops[index];
-	};
-	mui(controlsElem).on('tap', '.mui-control-item', function(e) {
-		scrollTo(this.getAttribute('data-index'));
-		return false;
-	});
-})();
+}
+mui.init();
+var url_url = localStorage.getItem('register_url');
+var skill = document.getElementById("skill");

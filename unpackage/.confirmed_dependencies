@@ -26,7 +26,8 @@
       "about.html",
       "wallet.html",
       "Skill.html",
-      "share.html"
+      "share.html",
+      "Help.html"
     ],
     "resources": []
   },
@@ -65,7 +66,21 @@
   },
   "Put_forward.html": {
     "refer": [
-      "fowrad-detail.html"
+      "fowrad-detail.html",
+      "Detailed.html"
+    ]
+  },
+  "Detailed.html": {
+    "resources": [
+      "Detailed_re.html"
+    ],
+    "refer": [
+      "Detailed_re.html"
+    ]
+  },
+  "Help.html": {
+    "refer": [
+      "Help_san.html"
     ]
   }
 }

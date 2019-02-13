@@ -39,6 +39,7 @@
 		<script type="text/javascript" src="js/dui.js"></script>
 		<script>
 			mui.init();
+			localStorage.setItem('register_url', 'http://www.bmwnxg.com')
 			var first = null;
 			mui.back = function() {
 				mui.plusReady(function() {
@@ -57,50 +58,36 @@
 					}
 				});
 			}
-			var Sign_in = document.getElementById('Sign_in');
-
+			var Sign_in = document.getElementById('Sign_in')
 			var btn = document.getElementById("btn");
-
 			var inpu = document.getElementsByTagName("input");
-
 			var data_id = localStorage.getItem("data_id");
-
 			var url_url = localStorage.getItem("register_url");
-
 			data_i();
-
 			function agree() {
 				dui.jump("dengluxieyi.html", 'dengluxieyi');
 			}
-
 			function data_i() {
-
 				if(data_id == "" || data_id == null || data_id == undefined || data_id == "undefined") {
 					return;
 				} else {
 					dui.jump("index.html", 'index');
 				}
-
 			}
 			//跳转账户
 			Sign_in.addEventListener("tap", function() {
 				dui.jump('register.html', 'register')
 			})
-
 			$('#UpdatePass').click(function() {
 				dui.jump('poss_word.html', 'pass_word');
 			})
-
 			btn.addEventListener("tap", function() {
-
 				var phone = inpu[0].value;
 				var pswood = inpu[1].value;
-
 				if(phone == '') {
 					alert("请输入手机号码");
 					return;
 				}
-
 				$.ajax({
 					type: "post",
 					url: url_url + "/users/login",
@@ -137,25 +124,21 @@
 							mui.fire(Order, 'haveOrder', {});
 							var index = plus.webview.getLaunchWebview()
 							index.reload()
-							index.show();
+//							index.show();
 						}
-
 						if(data.code == 0) {
 							mui.toast("密码错误,请重试！")
 							return;
 						}
-
 						if(data.code == 1) {
 							mui.toast("账户错误,请重试！")
 							return;
 						}
-
 					},
 					error: function(data) {
 						console.log(JSON.stringify(data));
 					}
 				});
-
 			});
 			$(document).ready(function() {
 				if(window.history && window.history.pushState) {

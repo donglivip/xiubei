@@ -82,23 +82,6 @@
 				mui.init()
 				var user_id = localStorage.getItem("data_id");
 				localStorage.setItem('register_url', 'http://www.bmwnxg.com')
-				if(localStorage.getItem('ma_vip_id') != 'null') {
-					$('#myalert').hide()
-				}
-				$('#myalert').click(function() {
-					$(this).hide()
-				})
-				$('#myalert img').click(function() {
-					if(user_id == '' || user_id == 'null' || user_id == null || user_id == undefined) {
-						mui.toast("请登录");
-						dui.jump('Sign_in.html', 'Sign_in');
-						return false;
-					}
-					mui.openWindow({
-						url: './membership.html',
-						id: 'membership'
-					})
-				})
 
 				function reset() {
 					complee()
@@ -373,38 +356,7 @@
 								$('#qiangc').html(data.data.length)
 							}
 							for(var i = 0; i < data.data.length; i++) {
-								$('#test').append(`
-										<div class="lie_bie type01" onclick='go(${data.data[i].pb_order_id})'>
-											<div class="div_li">
-												<a class="li_li">订单类型:</a>
-											</div>
-											<div class="div_lr">
-												<a class="li_lt">${data.data[i].pb_skill_type_one_title} - ${data.data[i].pb_skill_type_title}</a>
-											</div>
-					
-											<div class="div_li">
-												<a class="li_li">上门时间:</a>
-											</div>
-											<div class="div_lr">
-												<a class="li_lt">${data.data[i].time}</a>
-											</div>
-					
-											<div class="div_li" style="width: 20%;">
-												<a class="li_li">订单地址:</a>
-											</div>
-											<div class="div_lr" style="width: 80%;font-size: 0.24rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-												<a class="li_lt">${data.data[i].pb_region_text}</a>
-											</div>
-					
-											<div class="div_li">
-												<a class="li_li">订单押金:</a>
-											</div>
-											<div class="div_lr">
-												<a class="li_lt">${data.data[i].pb_order_deposit}元</a>
-											</div>
-										</div>
-									
-								`)
+								$('#test').append('\n\t\t\t\t\t\t\t\t\t\t<div class="lie_bie type01" onclick=\'go(' + data.data[i].pb_order_id + ')\'>\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u8BA2\u5355\u7C7B\u578B:</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_skill_type_one_title + ' - ' + data.data[i].pb_skill_type_title + '</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u4E0A\u95E8\u65F6\u95F4:</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].time + '</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_li" style="width: 20%;">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u8BA2\u5355\u5730\u5740:</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_lr" style="width: 80%;font-size: 0.24rem;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_region_text + '</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u8BA2\u5355\u62BC\u91D1:</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_order_deposit + '\u5143</a>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t')
 							}
 
 							function plusReady() {
@@ -447,38 +399,7 @@
 								$('#paic').html(data.data.length)
 							}
 							for(var i = 0; i < data.data.length; i++) {
-								$('#test').append(`
-									<div class="lie_bie type02" onclick='go(${data.data[i].pb_order_id})' style='display:none'>
-										<div class="div_li">
-											<a class="li_li">订单类型:</a>
-										</div>
-				
-										<div class="div_lr">
-											<a class="li_lt">${data.data[i].pb_skill_name1} - ${data.data[i].pb_skill_name2}</a>
-										</div>
-				
-										<div class="div_li">
-											<a class="li_li">上门时间:</a>
-										</div>
-										<div class="div_lr">
-											<a class="li_lt">${data.data[i].pb_order_door_time}</a>
-										</div>
-				
-										<div class="div_li">
-											<a class="li_li">订单地址:</a>
-										</div>
-										<div class="div_lr">
-											<a class="li_lt">${data.data[i].pb_region_text}</a>
-										</div>
-				
-										<div class="div_li">
-											<a class="li_li">订单押金:</a>
-										</div>
-										<div class="div_lr">
-											<a class="li_lt">${data.data[i].pb_order_deposit}元</a>
-										</div>
-									</div>
-								`)
+								$('#test').append('\n\t\t\t\t\t\t\t\t\t<div class="lie_bie type02" onclick=\'go(' + data.data[i].pb_order_id + ')\' style=\'display:none\'>\n\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u8BA2\u5355\u7C7B\u578B:</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_skill_name1 + ' - ' + data.data[i].pb_skill_name2 + '</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u4E0A\u95E8\u65F6\u95F4:</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_order_door_time + '</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u8BA2\u5355\u5730\u5740:</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_region_text + '</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<div class="div_li">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_li">\u8BA2\u5355\u62BC\u91D1:</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class="div_lr">\n\t\t\t\t\t\t\t\t\t\t\t<a class="li_lt">' + data.data[i].pb_order_deposit + '\u5143</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t')
 							}
 
 							function plusReady() {
@@ -519,4 +440,5 @@
 				})
 			</script>
 		</body>
+
 </html>

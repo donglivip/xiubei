@@ -3,7 +3,7 @@
     "id": "H5BFAF261",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "修呗-师傅端",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "1.4.2",/*应用版本名称*/
+        "name": "1.4.7",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -161,7 +161,8 @@
 					"about.html",
 					"wallet.html",
 					"Skill.html",
-					"share.html"
+					"share.html",
+					"Help.html"
 				],
 				"priority": 0
 			},
@@ -205,7 +206,22 @@
 			"Put_forward.html": {
 				"resources": [],
 				"refer": [
-					"fowrad-detail.html"
+					"fowrad-detail.html",
+					"Detailed.html"
+				],
+				"priority": 0
+			},
+			"Detailed.html": {
+				"resources": [
+					"Detailed_re.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Help.html": {
+				"resources": [],
+				"refer": [
+					"Help_san.html"
 				],
 				"priority": 0
 			}
@@ -216,7 +232,6 @@
 				"css/base.css",
 				"img/789.jpg",
 				"img/E2A433B2-7B02-4AB2-A76A-E103F88FD41C@1x.png",
-				"Help.html",
 				"js/jquery-2.1.0.js",
 				"Setting_skills.html",
 				"css/Order.css",
@@ -232,11 +247,8 @@
 				"js/jquery-1.12.4.js",
 				"js/Setting_ski.js",
 				"img/qianbao.png",
-				"Detailed.html",
 				"js/mui.js",
-				"Detailed_re.html",
 				"img/da.png",
-				"Help_san.html",
 				"img/Arrow_Simple_left Copy@2x.png",
 				"fonts/mui.ttf",
 				"img/no.png",
