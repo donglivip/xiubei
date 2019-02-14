@@ -53,7 +53,7 @@
 							var index = plus.webview.getLaunchWebview()
 							index.show();
 						}else{
-							plus.nativeUI.toast('取消订单失败！')
+							plus.nativeUI.toast(res.msg)
 						}
 					},
 					error: function(err) {
